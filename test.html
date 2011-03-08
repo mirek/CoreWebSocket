@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <title></title>
+    <script type="text/javascript" charset="utf-8">
+      
+      var ws = null;
+      
+    function init() {
+      if ("WebSocket" in window) {
+        
+      ws = new WebSocket("ws://localhost:6001");
+      
+      ws.onerror = function(e) {
+        console.log('error', e)
+      }
+      
+      ws.onopen = function(e) {
+        ws.send(["/test/1", 1.2342]); 
+        ws.send(["/test/2", "this is test"]); 
+        console.log("open", e)
+      }
+      ws.onmessage = function (e) { console.log("message", e) };
+      
+      ws.onclose = function(e) { console.log('close', e) };
+      
+          
+        }
+      }
+      
+    </script>
+  </head>
+  <body id="" onload="init()">
+    
+    
+    
+  </body>
+</html>

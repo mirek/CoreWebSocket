@@ -1,0 +1,251 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EB60778C1324E7FB00D98B17 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB60778B1324E7FB00D98B17 /* CoreFoundation.framework */; };
+		EB60778F1324E7FB00D98B17 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = EB60778E1324E7FB00D98B17 /* main.c */; };
+		EB6077971325111500D98B17 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB6077961325111400D98B17 /* CoreServices.framework */; };
+		EB607799132514E800D98B17 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EB607798132514E800D98B17 /* libcrypto.dylib */; };
+		EB6077A21325448600D98B17 /* WebSocketString.c in Sources */ = {isa = PBXBuildFile; fileRef = EB6077A01325448600D98B17 /* WebSocketString.c */; };
+		EB6077A5132568F600D98B17 /* WebSocketClient.c in Sources */ = {isa = PBXBuildFile; fileRef = EB6077A3132568F600D98B17 /* WebSocketClient.c */; };
+		EB6077A813256A8600D98B17 /* WebSocket.c in Sources */ = {isa = PBXBuildFile; fileRef = EB6077A713256A8600D98B17 /* WebSocket.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EB6077851324E7FB00D98B17 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		EB6077871324E7FB00D98B17 /* CoreWebSocket */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CoreWebSocket; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB60778B1324E7FB00D98B17 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		EB60778E1324E7FB00D98B17 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		EB6077901324E7FB00D98B17 /* CoreWebSocket.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = CoreWebSocket.1; sourceTree = "<group>"; };
+		EB6077961325111400D98B17 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		EB607798132514E800D98B17 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
+		EB6077A01325448600D98B17 /* WebSocketString.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WebSocketString.c; sourceTree = "<group>"; };
+		EB6077A11325448600D98B17 /* WebSocketString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketString.h; sourceTree = "<group>"; };
+		EB6077A3132568F600D98B17 /* WebSocketClient.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WebSocketClient.c; sourceTree = "<group>"; };
+		EB6077A4132568F600D98B17 /* WebSocketClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketClient.h; sourceTree = "<group>"; };
+		EB6077A61325691C00D98B17 /* WebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocket.h; sourceTree = "<group>"; };
+		EB6077A713256A8600D98B17 /* WebSocket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WebSocket.c; sourceTree = "<group>"; };
+		EB6077A913256E2B00D98B17 /* WebSocketTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketTypes.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EB6077841324E7FB00D98B17 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB607799132514E800D98B17 /* libcrypto.dylib in Frameworks */,
+				EB6077971325111500D98B17 /* CoreServices.framework in Frameworks */,
+				EB60778C1324E7FB00D98B17 /* CoreFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EB4CE584132683A70090FED3 /* OSX */ = {
+			isa = PBXGroup;
+			children = (
+				EB607798132514E800D98B17 /* libcrypto.dylib */,
+				EB6077961325111400D98B17 /* CoreServices.framework */,
+				EB60778B1324E7FB00D98B17 /* CoreFoundation.framework */,
+			);
+			name = OSX;
+			sourceTree = "<group>";
+		};
+		EB60777C1324E7FB00D98B17 = {
+			isa = PBXGroup;
+			children = (
+				EB60778D1324E7FB00D98B17 /* CoreWebSocket */,
+				EB60778A1324E7FB00D98B17 /* Frameworks */,
+				EB6077881324E7FB00D98B17 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EB6077881324E7FB00D98B17 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EB6077871324E7FB00D98B17 /* CoreWebSocket */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EB60778A1324E7FB00D98B17 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EB4CE584132683A70090FED3 /* OSX */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EB60778D1324E7FB00D98B17 /* CoreWebSocket */ = {
+			isa = PBXGroup;
+			children = (
+				EB6077A913256E2B00D98B17 /* WebSocketTypes.h */,
+				EB6077A61325691C00D98B17 /* WebSocket.h */,
+				EB6077A713256A8600D98B17 /* WebSocket.c */,
+				EB6077A4132568F600D98B17 /* WebSocketClient.h */,
+				EB6077A3132568F600D98B17 /* WebSocketClient.c */,
+				EB6077A11325448600D98B17 /* WebSocketString.h */,
+				EB6077A01325448600D98B17 /* WebSocketString.c */,
+				EB60778E1324E7FB00D98B17 /* main.c */,
+				EB6077901324E7FB00D98B17 /* CoreWebSocket.1 */,
+			);
+			name = CoreWebSocket;
+			path = WebSocketCore;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EB6077861324E7FB00D98B17 /* CoreWebSocket */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EB6077931324E7FB00D98B17 /* Build configuration list for PBXNativeTarget "CoreWebSocket" */;
+			buildPhases = (
+				EB6077831324E7FB00D98B17 /* Sources */,
+				EB6077841324E7FB00D98B17 /* Frameworks */,
+				EB6077851324E7FB00D98B17 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CoreWebSocket;
+			productName = WebSocketCore;
+			productReference = EB6077871324E7FB00D98B17 /* CoreWebSocket */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EB60777E1324E7FB00D98B17 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Inteliv Ltd";
+			};
+			buildConfigurationList = EB6077811324E7FB00D98B17 /* Build configuration list for PBXProject "CoreWebSocket" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = EB60777C1324E7FB00D98B17;
+			productRefGroup = EB6077881324E7FB00D98B17 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EB6077861324E7FB00D98B17 /* CoreWebSocket */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EB6077831324E7FB00D98B17 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB60778F1324E7FB00D98B17 /* main.c in Sources */,
+				EB6077A21325448600D98B17 /* WebSocketString.c in Sources */,
+				EB6077A5132568F600D98B17 /* WebSocketClient.c in Sources */,
+				EB6077A813256A8600D98B17 /* WebSocket.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		EB6077911324E7FB00D98B17 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		EB6077921324E7FB00D98B17 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		EB6077941324E7FB00D98B17 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				PRODUCT_NAME = CoreWebSocket;
+			};
+			name = Debug;
+		};
+		EB6077951324E7FB00D98B17 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				PRODUCT_NAME = CoreWebSocket;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EB6077811324E7FB00D98B17 /* Build configuration list for PBXProject "CoreWebSocket" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EB6077911324E7FB00D98B17 /* Debug */,
+				EB6077921324E7FB00D98B17 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EB6077931324E7FB00D98B17 /* Build configuration list for PBXNativeTarget "CoreWebSocket" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EB6077941324E7FB00D98B17 /* Debug */,
+				EB6077951324E7FB00D98B17 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EB60777E1324E7FB00D98B17 /* Project object */;
+}
