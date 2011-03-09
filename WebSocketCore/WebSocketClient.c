@@ -76,7 +76,11 @@ void __WebSocketClientReadCallBack(CFReadStreamRef stream, CFStreamEventType eve
                 if (client->webSocket->callbacks.didClientReadCallback) {
                   CFDataRef data = CFDataCreate(client->allocator, (const void *)from, to - from);
                   if (data) {
-                    client->webSocket->callbacks.didClientReadCallback(client->webSocket, client, data);
+                    CFStringRef string = CFStringCreateWithBytes(client->allocator, CFDataGetBytePtr(data), CFDataGetLength(data), kCFStringEncodingUTF8, 0);
+                    if (string) {
+                      client->webSocket->callbacks.didClientReadCallback(client->webSocket, client, string);
+                      CFRelease(string);
+                    }
                     CFRelease(data);
                   }
                 }

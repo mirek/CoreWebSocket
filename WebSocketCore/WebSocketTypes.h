@@ -22,7 +22,7 @@ typedef WebSocketClient *WebSocketClientRef;
 
 typedef void (*WebSocketDidAddClientCallback)     (WebSocketRef webSocket, WebSocketClientRef client);
 typedef void (*WebSocketWillRemoveClientCallback) (WebSocketRef webSocket, WebSocketClientRef client);
-typedef void (*WebSocketDidClientReadCallback)    (WebSocketRef webSocket, WebSocketClientRef client, CFDataRef value);
+typedef void (*WebSocketDidClientReadCallback)    (WebSocketRef webSocket, WebSocketClientRef client, CFStringRef value);
 
 struct WebSocketCallbacks {
   WebSocketDidAddClientCallback     didAddClientCallback;
@@ -81,4 +81,6 @@ struct WebSocket {
   CFSocketContext context;
   
   WebSocketCallbacks callbacks;
+  
+  void *info;
 };
