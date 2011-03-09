@@ -142,13 +142,20 @@ bool __WebSocketClientWriteHandShake(WebSocketClientRef client) {
     CFStringRef key2 = CFHTTPMessageCopyHeaderFieldValue(client->handShakeRequestHTTPMessage, CFSTR("Sec-Websocket-Key2"));
     CFDataRef key3 = CFHTTPMessageCopyBody(client->handShakeRequestHTTPMessage);
     CFStringRef origin = CFHTTPMessageCopyHeaderFieldValue(client->handShakeRequestHTTPMessage, CFSTR("Origin"));
+    CFStringRef host = CFHTTPMessageCopyHeaderFieldValue(client->handShakeRequestHTTPMessage, CFSTR("Host"));
     
     CFHTTPMessageRef response = CFHTTPMessageCreateEmpty(NULL, 0);
     CFHTTPMessageAppendBytes(response, (const UInt8 *)"HTTP/1.1 101 Web Socket Protocol Handshake\r\n", 44);
     CFHTTPMessageSetHeaderFieldValue(response, CFSTR("Upgrade"), CFSTR("WebSocket"));
     CFHTTPMessageSetHeaderFieldValue(response, CFSTR("Connection"), CFSTR("Upgrade"));
     CFHTTPMessageSetHeaderFieldValue(response, CFSTR("Sec-Websocket-Origin"), origin);
-    CFHTTPMessageSetHeaderFieldValue(response, CFSTR("Sec-Websocket-Location"), CFSTR("ws://localhost:6001/"));
+    
+    CFMutableStringRef location = CFStringCreateMutable(client->allocator, 0);
+    CFStringAppend(location, CFSTR("ws://"));
+    CFStringAppend(location, host);
+    CFStringAppend(location, CFSTR("/"));
+    CFHTTPMessageSetHeaderFieldValue(response, CFSTR("Sec-Websocket-Location"), location);
+    CFRelease(location);
     
     // Set MD5 hash
     {

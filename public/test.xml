@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:svg="http://www.w3.org/2000/svg" 
+xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" /> 
+    <title></title>
+    <script type="text/javascript" charset="utf-8">
+      // var osc = new Osc();
+      
+    </script>
+  </head>
+  <body>
+    
+    <!-- <svg:svg id="tri" width="600px" height="400px" style="display:block; -webkit-transform: rotate(90deg)">
+      <svg:polygon id="triangle" points="50,50 50,300 300,300" style="fill:blue; stroke:black; -webkit-transform: rotate(90deg)"/>
+    </svg:svg> -->
+
+    <svg:svg id="circle" width="100px" height="100px" style="position: absolute; top: 0; left: 0">
+      <svg:circle cx="50" cy="50" r="40" stroke="black" stroke-width="10" fill="gray" />
+    </svg:svg>
+    
+    <textarea id="info"></textarea>
+    
+    <script type="text/javascript" charset="utf-8">
+      
+      function Osc(options) {
+        options = options || {}
+        this.port = options['port'] || 6001
+        this.host = options['host'] || document.location.hostname
+        if ("WebSocket" in window) {
+          this.webSocket = new WebSocket('ws://' + this.host + ':' + this.port)
+          this.webSocket.onerror = function(e) {
+            console.log('error', e)
+          }
+          this.webSocket.onopen = function(e) {
+            console.log('open', e)
+          }
+          this.webSocket.onmessage = function(e) {
+            console.log('message', e)
+          }
+          this.webSocket.onclose = function(e) {
+            console.log('close', e)
+          }
+        }
+        
+        this.__send = function(t, n, v) {
+          var j = JSON.stringify([t, n, v])
+          // console.log(j)
+          return this.webSocket.send(j)
+        }
+        
+        this.sendFloat32 = function(n, v) {
+          return this.__send(',f', n, v)
+        }
+        
+        this.sendFloats32 = function(n, v) {
+          return this.__send(',' + new Array(v.length + 1).join('f'), n, v)
+        }
+        
+      }
+      
+      var osc  = new Osc();
+      
+      var element = document.getElementById('circle')
+
+      document.ontouchstart = function(e) {
+        e.preventDefault()
+      }
+
+      document.ontouchmove = function(e) {
+        e.preventDefault()
+        <!-- console.log(e.touches[0].pageX) -->
+        osc.sendFloat32('/pageX', e.touches[0].pageX)
+        osc.sendFloat32('/pageY', e.touches[0].pageY)
+        element.style['-webkit-transform'] = 'translate(' + (e.touches[0].pageX - 50) + 'px, ' + (e.touches[0].pageY - 50) + 'px)'
+      }
+      
+      document.onmousemove = function(e) {
+        // if (triangle) {
+          
+          osc.sendFloat32('/pageX', e.pageX)
+          osc.sendFloat32('/pageY', e.pageY)
+          <!-- osc.sendFloats32('/pageXY', [e.pageX, e.pageY]) -->
+          
+          element.style['-webkit-transform'] = 'translate(' + (e.pageX - 50) + 'px, ' + (e.pageY - 50) + 'px)'
+          
+        // }
+      }
+      
+      
+    </script>
+    
+  </body>
+</html>

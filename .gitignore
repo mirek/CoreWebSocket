@@ -4,3 +4,4 @@ build
 *.xcodeproj/xcuserdata
 *.xcodeproj/*.mode1v3
 *.xcodeproj/*.pbxuser
+passenger.*
