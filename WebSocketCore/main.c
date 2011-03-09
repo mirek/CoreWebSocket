@@ -23,12 +23,12 @@ void myread(WebSocketRef webSocket, WebSocketClientRef client, CFDataRef data) {
 
 int main (int argc, const char * argv[]) {
   
-  WebSocketRef webSocket = WebSocketCreate(NULL, kWebSocketHostAny, 6001);
-  if (webSocket) {
-    webSocket->callbacks.didClientReadCallback = myread;
-    CFRunLoopRun();
-    WebSocketRelease(webSocket);
-  }
+//  WebSocketRef webSocket = WebSocketCreate(NULL, kWebSocketHostAny, 6001);
+//  if (webSocket) {
+//    webSocket->callbacks.didClientReadCallback = myread;
+//    CFRunLoopRun();
+//    WebSocketRelease(webSocket);
+//  }
   
   
 //  CFDataRef key3 = CFDataCreate(NULL, (const void *)"Tm[K T2u", 8);

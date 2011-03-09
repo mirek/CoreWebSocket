@@ -349,6 +349,19 @@ void __WebSocketDataAppendKey(CFMutableDataRef data, CFStringRef string) {
 
 // Generates md5 data from two header keys and data
 CFDataRef __WebSocketCreateMD5Data(CFAllocatorRef allocator, CFStringRef key1, CFStringRef key2, CFDataRef key3) {
+#if (TARGET_OS_EMBEDDED)
+  CC_MD5_CTX mdctx;
+  CC_MD5_Init(&mdctx);
+  unsigned char buffer[CC_MD5_DIGEST_LENGTH];
+  CFMutableDataRef data = CFDataCreateMutable(allocator, 0);
+  __WebSocketDataAppendKey(data, key1);
+  __WebSocketDataAppendKey(data, key2);
+  CFDataAppendBytes(data, CFDataGetBytePtr(key3), CFDataGetLength(key3));
+  CC_MD5_Update(&mdctx, CFDataGetBytePtr(data), CFDataGetLength(data));
+  CC_MD5_Final(buffer, &mdctx);
+  CFRelease(data);
+  return CFDataCreate(allocator, buffer, CC_MD5_DIGEST_LENGTH);
+#else
   EVP_MD_CTX mdctx;
   unsigned char buffer[EVP_MAX_MD_SIZE];
   unsigned int length = 0;
@@ -361,6 +374,7 @@ CFDataRef __WebSocketCreateMD5Data(CFAllocatorRef allocator, CFStringRef key1, C
   EVP_DigestFinal(&mdctx, buffer, &length);
   CFRelease(data);
   return CFDataCreate(allocator, buffer, length);
+#endif
 }
 
 bool WebSocketClientHandShake(WebSocketClientRef client) {

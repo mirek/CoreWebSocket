@@ -10,12 +10,17 @@
 #define __CORE_WEB_SOCKET__ 1
 
 #include <CoreFoundation/CoreFoundation.h>
-#include <CoreServices/CoreServices.h>
 #include <unistd.h>
 #include <netdb.h>
 
+#if (TARGET_OS_EMBEDDED)
+#include <CFNetwork/CFNetwork.h>
+#include <CommonCrypto/CommonDigest.h>
+#else
+#include <CoreServices/CoreServices.h>
 #include <openssl/evp.h>
 #include <openssl/err.h>
+#endif
 
 #include <arpa/inet.h>
 #include <sys/socket.h>

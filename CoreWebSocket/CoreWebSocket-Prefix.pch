@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'CoreWebSocket' target in the 'CoreWebSocket' project
+//
+
+#ifdef __OBJC__
+  #import <Cocoa/Cocoa.h>
+#endif

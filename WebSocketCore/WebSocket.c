@@ -143,5 +143,5 @@ CFIndex __WebSocketRemoveClient(WebSocketRef webSocket, WebSocketClientRef clien
 
 void __WebSocketAcceptCallBack(CFSocketRef socket, CFSocketCallBackType type, CFDataRef address, const void *sock, void *info) {
   WebSocketRef webSocket = (WebSocketRef)info;
-  WebSocketClientRef client = WebSocketClientCreate(webSocket, *(CFSocketNativeHandle *)sock);
+  WebSocketClientCreate(webSocket, *(CFSocketNativeHandle *)sock);
 }
