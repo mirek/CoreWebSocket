@@ -8,7 +8,9 @@
 
 #include <CoreFoundation/CoreFoundation.h>
 
-#define kWebSocketHostAny CFSTR("*")
+#define kWebSocketHostAny      CFSTR("0.0.0.0")
+#define kWebSocketHostLoopBack CFSTR("127.0.0.1")
+#define kWebSocketPortAny      0
 
 typedef struct WebSocket WebSocket;
 typedef WebSocket *WebSocketRef;
@@ -68,6 +70,7 @@ struct WebSocketClient {
 struct WebSocket {
   CFAllocatorRef allocator;
   CFIndex retainCount;
+  void *userInfo;
   
   struct sockaddr_in addr;
   CFSocketRef socket;
@@ -81,6 +84,4 @@ struct WebSocket {
   CFSocketContext context;
   
   WebSocketCallbacks callbacks;
-  
-  void *info;
 };

@@ -13,7 +13,7 @@
 #include <unistd.h>
 #include <netdb.h>
 
-#if (TARGET_OS_EMBEDDED)
+#if (TARGET_OS_IPHONE)
 #include <CFNetwork/CFNetwork.h>
 #include <CommonCrypto/CommonDigest.h>
 #else
@@ -38,9 +38,15 @@
 
 #pragma mark Lifecycle
 
-WebSocketRef WebSocketCreate  (CFAllocatorRef allocator, CFStringRef host, UInt16 port);
+WebSocketRef WebSocketCreate  (CFAllocatorRef allocator, CFStringRef host, UInt16 port, void *userInfo);
+
+// Create WebSocketRef using any host and any available port.
+WebSocketRef WebSocketCreateWithUserInfo(CFAllocatorRef allocator, void *userInfo);
+
 WebSocketRef WebSocketRetain  (WebSocketRef webSocket);
 WebSocketRef WebSocketRelease (WebSocketRef webSocket);
+
+UInt16 WebSocketGetPort(WebSocketRef webSocket);
 
 #pragma mark Internal, client management
 

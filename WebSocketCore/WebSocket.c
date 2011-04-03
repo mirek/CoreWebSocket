@@ -10,11 +10,12 @@
 
 #pragma mark Lifecycle
 
-WebSocketRef WebSocketCreate(CFAllocatorRef allocator, CFStringRef host, UInt16 port) {
+WebSocketRef WebSocketCreate(CFAllocatorRef allocator, CFStringRef host, UInt16 port, void *userInfo) {
   WebSocketRef webSocket = CFAllocatorAllocate(allocator, sizeof(WebSocket), 0);
   if (webSocket) {
     webSocket->allocator = allocator ? CFRetain(allocator) : NULL;
     webSocket->retainCount = 1;
+    webSocket->userInfo = userInfo;
     
     webSocket->clientsLength = 1024;
     webSocket->clientsUsedLength = 0;
@@ -51,7 +52,7 @@ WebSocketRef WebSocketCreate(CFAllocatorRef allocator, CFStringRef host, UInt16 
     
     if (CFEqual(kWebSocketHostAny, host)) {
       
-      // Host is set to "*", set it to INADDR_ANY
+      // Host is set to "0.0.0.0", set it to INADDR_ANY
       webSocket->addr.sin_addr.s_addr = htonl(INADDR_ANY);
     } else {
       
@@ -77,6 +78,10 @@ WebSocketRef WebSocketCreate(CFAllocatorRef allocator, CFStringRef host, UInt16 
   }
 fin:
   return webSocket;
+}
+
+WebSocketRef WebSocketCreateWithUserInfo(CFAllocatorRef allocator, void *userInfo) {
+  return WebSocketCreate(allocator, kWebSocketHostLoopBack, kWebSocketPortAny, userInfo);
 }
 
 WebSocketRef WebSocketRetain(WebSocketRef webSocket) {
@@ -112,6 +117,21 @@ WebSocketRef WebSocketRelease(WebSocketRef webSocket) {
   return webSocket;
 }
 
+UInt16 WebSocketGetPort(WebSocketRef webSocket) {
+  UInt16 port = UINT16_MAX;
+  if (webSocket && webSocket->socket) {
+    struct sockaddr_in sockname;
+    socklen_t sockname_len = sizeof(sockname);
+    if (getsockname(CFSocketGetNative(webSocket->socket), (struct sockaddr *)&sockname, &sockname_len) < 0) {
+      // Error
+    } else {
+      port = ntohs(sockname.sin_port);
+      // host = inet_ntoa(sockname.sin_addr)
+    }
+  }
+  return port;
+}
+
 #pragma mark Internal, client management
 
 CFIndex __WebSocketAppendClient(WebSocketRef webSocket, WebSocketClientRef client) {
@@ -143,5 +163,6 @@ CFIndex __WebSocketRemoveClient(WebSocketRef webSocket, WebSocketClientRef clien
 
 void __WebSocketAcceptCallBack(CFSocketRef socket, CFSocketCallBackType type, CFDataRef address, const void *sock, void *info) {
   WebSocketRef webSocket = (WebSocketRef)info;
-  WebSocketClientCreate(webSocket, *(CFSocketNativeHandle *)sock);
+  WebSocketClientRef client = WebSocketClientCreate(webSocket, *(CFSocketNativeHandle *)sock);
+  printf("adding %p client\n", client);
 }
