@@ -26,10 +26,6 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-#if TARGET_OS_IPHONE
-#import <CFNetwork/CFNetwork.h>
-#endif
-
 #include "WebSocketTypes.h"
 #include "WebSocketString.h"
 #include "WebSocketClient.h"
@@ -47,6 +43,9 @@ WebSocketRef WebSocketRetain  (WebSocketRef webSocket);
 WebSocketRef WebSocketRelease (WebSocketRef webSocket);
 
 UInt16 WebSocketGetPort(WebSocketRef webSocket);
+
+void    WebSocketWriteWithString               (WebSocketRef webSocket, CFStringRef value);
+CFIndex WebSocketWriteWithStringAndClientIndex (WebSocketRef webSocket, CFStringRef value, CFIndex index);
 
 #pragma mark Internal, client management
 

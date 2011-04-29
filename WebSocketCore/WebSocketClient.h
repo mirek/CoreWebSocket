@@ -17,7 +17,12 @@ WebSocketClientRef WebSocketClientCreate  (WebSocketRef webSocket, CFSocketNativ
 WebSocketClientRef WebSocketClientRetain  (WebSocketClientRef client);
 WebSocketClientRef WebSocketClientRelease (WebSocketClientRef client);
 
-#pragma Handshake
+#pragma mark Write
+
+CFIndex WebSocketClientWriteWithData   (WebSocketClientRef client, CFDataRef value);
+CFIndex WebSocketClientWriteWithString (WebSocketClientRef client, CFStringRef value);
+
+#pragma mark Handshake (internal)
 
 uint32_t  __WebSocketGetMagicNumberWithKeyString (CFStringRef string);
 void      __WebSocketDataAppendKey               (CFMutableDataRef data, CFStringRef string);

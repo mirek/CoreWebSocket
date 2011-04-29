@@ -8,6 +8,42 @@
 
 #include "WebSocketClient.h"
 
+#pragma mark Write
+
+// Internal function, write provided buffer in a frame [0x00 ... 0xff]
+CFIndex __WebSocketClientWriteFrame(WebSocketClientRef client, const UInt8 *buffer, CFIndex length) {
+  CFIndex bytes = -1;
+  if (client) {
+    if (buffer) {
+      if (length > 0) {
+        CFWriteStreamWrite(client->write, (UInt8[]){ 0x00 }, 1);
+        bytes = CFWriteStreamWrite(client->write, buffer, length);
+        CFWriteStreamWrite(client->write, (UInt8[]){ 0xff }, 1);
+      }
+    }
+  }
+  return bytes;
+}
+
+CFIndex WebSocketClientWriteWithData(WebSocketClientRef client, CFDataRef value) {
+  return __WebSocketClientWriteFrame(client, CFDataGetBytePtr(value), CFDataGetLength(value));
+}
+
+CFIndex WebSocketClientWriteWithString(WebSocketClientRef client, CFStringRef value) {
+  CFIndex bytes = -1;
+  if (client) {
+    if (value) {
+      CFDataRef data = CFStringCreateExternalRepresentation(client->allocator, value, kCFStringEncodingUTF8, 0);
+      if (data) {
+        CFShow(value);
+        bytes = WebSocketClientWriteWithData(client, data);
+        CFRelease(data);
+      }
+    }
+  }
+  return bytes;
+}
+
 #pragma mark Read callback
 
 bool __WebSocketClientWriteHandShake(WebSocketClientRef client);

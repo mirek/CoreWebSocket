@@ -132,12 +132,33 @@ UInt16 WebSocketGetPort(WebSocketRef webSocket) {
   return port;
 }
 
+void WebSocketWriteWithString(WebSocketRef webSocket, CFStringRef value) {
+  if (webSocket) {
+    for (CFIndex i = 0; i < webSocket->clientsUsedLength; i++) {
+      WebSocketWriteWithStringAndClientIndex(webSocket, value, i);
+    }
+  }
+}
+
+CFIndex WebSocketWriteWithStringAndClientIndex(WebSocketRef webSocket, CFStringRef value, CFIndex index) {
+  CFIndex bytes = -1;
+  if (webSocket) {
+    if (value) {
+      if (index < webSocket->clientsUsedLength) {
+        bytes = WebSocketClientWriteWithString(webSocket->clients[index], value);
+      }
+    }
+  }
+  return bytes;
+}
+
 #pragma mark Internal, client management
 
 CFIndex __WebSocketAppendClient(WebSocketRef webSocket, WebSocketClientRef client) {
   CFIndex count = -1;
   if (webSocket && client) {
-    webSocket->clients[count = ++webSocket->clientsUsedLength] = WebSocketClientRetain(client);
+    webSocket->clients[webSocket->clientsUsedLength++] = WebSocketClientRetain(client);
+    count = webSocket->clientsUsedLength;
     if (webSocket->callbacks.didAddClientCallback)
       webSocket->callbacks.didAddClientCallback(webSocket, client);
   }
