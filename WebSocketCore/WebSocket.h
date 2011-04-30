@@ -47,6 +47,10 @@ UInt16 WebSocketGetPort(WebSocketRef webSocket);
 void    WebSocketWriteWithString               (WebSocketRef webSocket, CFStringRef value);
 CFIndex WebSocketWriteWithStringAndClientIndex (WebSocketRef webSocket, CFStringRef value, CFIndex index);
 
+#pragma mark Callbacks
+
+void WebSocketSetClientReadCallback(WebSocketRef webSocket, WebSocketDidClientReadCallback callback);
+
 #pragma mark Internal, client management
 
 CFIndex __WebSocketAppendClient (WebSocketRef webSocket, WebSocketClientRef client);

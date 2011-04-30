@@ -152,6 +152,14 @@ CFIndex WebSocketWriteWithStringAndClientIndex(WebSocketRef webSocket, CFStringR
   return bytes;
 }
 
+#pragma mark Callbacks
+
+void WebSocketSetClientReadCallback(WebSocketRef webSocket, WebSocketDidClientReadCallback callback) {
+  if (webSocket) {
+    webSocket->callbacks.didClientReadCallback = callback;
+  }
+}
+
 #pragma mark Internal, client management
 
 CFIndex __WebSocketAppendClient(WebSocketRef webSocket, WebSocketClientRef client) {
