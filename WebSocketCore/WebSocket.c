@@ -57,19 +57,32 @@ WebSocketRef WebSocketCreate(CFAllocatorRef allocator, CFStringRef host, UInt16 
     } else {
       
       // Set the host based on provided string. TODO: hostname resolution?
-      __WebSocketString hostASCII = __WebSocketStringMake(NULL, host, kCFStringEncodingASCII);
-      inet_aton((const char *)__WebSocketStringGetCString(hostASCII), &webSocket->addr.sin_addr);
-      __WebSocketStringDestroy(hostASCII);
+      CFIndex hostCStringLength = CFStringGetMaximumSizeForEncoding(CFStringGetLength(host), kCFStringEncodingASCII) + 1;
+      char *hostCString = CFAllocatorAllocate(webSocket->allocator, hostCStringLength, 0);
+      if (hostCString) {
+        if (CFStringGetCString(host, hostCString, hostCStringLength, kCFStringEncodingASCII)) {
+          inet_aton(hostCString, &webSocket->addr.sin_addr);
+        } else {
+          // TODO: Couldn't get CString
+        }
+        CFAllocatorDeallocate(webSocket->allocator, hostCString);
+      } else {
+        // TODO: Couldn't allocate buffer
+      }
     }
     
     webSocket->addr.sin_port = htons(port);
     
     CFDataRef address = CFDataCreate(webSocket->allocator, (const void *)&webSocket->addr, sizeof(webSocket->addr));
-    if (CFSocketSetAddress(webSocket->socket, (CFDataRef)address) != kCFSocketSuccess) {
-      webSocket = WebSocketRelease(webSocket);
-      goto fin;
+    if (address) {
+      if (CFSocketSetAddress(webSocket->socket, (CFDataRef)address) != kCFSocketSuccess) {
+        webSocket = WebSocketRelease(webSocket);
+//        CFRelease(address); // TODO: is it retained by the function?
+        goto fin;
+      } else {
+//        CFRelease(address); // TODO: is it retained bby the function
+      }
     }
-    //CFRelease(address);
     
     // Create run loop source and add it to the current run loop
     CFRunLoopSourceRef source = CFSocketCreateRunLoopSource(webSocket->allocator, webSocket->socket, 0);

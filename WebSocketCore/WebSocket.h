@@ -13,9 +13,10 @@
 #include <unistd.h>
 #include <netdb.h>
 
+#import <CommonCrypto/CommonDigest.h>
+
 #if (TARGET_OS_IPHONE)
 #include <CFNetwork/CFNetwork.h>
-#include <CommonCrypto/CommonDigest.h>
 #else
 #include <CoreServices/CoreServices.h>
 #include <openssl/evp.h>
@@ -27,7 +28,6 @@
 #include <netinet/in.h>
 
 #include "WebSocketTypes.h"
-#include "WebSocketString.h"
 #include "WebSocketClient.h"
 
 #define __WebSocketMaxHeaderKeyLength 4096

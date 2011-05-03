@@ -10,6 +10,7 @@
 #define __CORE_WEB_SOCKET_CLIENT__ 1
 
 #include "WebSocket.h"
+#include "cuEnc64.h"
 
 #pragma mark Lifecycle
 
@@ -24,9 +25,12 @@ CFIndex WebSocketClientWriteWithString (WebSocketClientRef client, CFStringRef v
 
 #pragma mark Handshake (internal)
 
-uint32_t  __WebSocketGetMagicNumberWithKeyString (CFStringRef string);
-void      __WebSocketDataAppendKey               (CFMutableDataRef data, CFStringRef string);
-CFDataRef __WebSocketCreateMD5Data               (CFAllocatorRef allocator, CFStringRef key1, CFStringRef key2, CFDataRef key3);
-bool        WebSocketClientHandShake             (WebSocketClientRef client);
+uint32_t  __WebSocketGetMagicNumberWithKeyValueString         (CFStringRef string);
+bool      __WebSocketDataAppendMagickNumberWithKeyValueString (CFMutableDataRef data, CFStringRef string);
+CFDataRef __WebSocketCreateMD5Data                            (CFAllocatorRef allocator, CFDataRef value) CF_RETURNS_RETAINED;
+CFDataRef __WebSocketCreateSHA1DataWithData                   (CFAllocatorRef allocator, CFDataRef value) CF_RETURNS_RETAINED;
+CFDataRef __WebSocketCreateSHA1DataWithString                 (CFAllocatorRef allocator, CFStringRef value, CFStringEncoding encoding) CF_RETURNS_RETAINED;
+bool      __WebSocketClientReadHandShake                      (WebSocketClientRef client);
+bool      __WebSocketClientWriteWithHTTPMessage               (WebSocketClientRef client, CFHTTPMessageRef message);
 
 #endif

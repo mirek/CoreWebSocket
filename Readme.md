@@ -97,3 +97,12 @@ Link your target with:
         </script>
       </head>
     </html>
+
+## License
+
+Unless otherwise stated, the code is released under Open Source MIT License, (c) Copyright Mirek Rusin <mirek [at] me [dot] com>
+
+Parts of the source code (particularly Base64 encoding functions) have been copied from http://opensource.apple.com which are released
+under Apple Public Source License 2.0 http://www.opensource.apple.com/apsl.
+
+Portions of the copied source code could be modified.

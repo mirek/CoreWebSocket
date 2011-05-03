@@ -8,23 +8,35 @@
 
 #include <CoreFoundation/CoreFoundation.h>
 
+#define WebSocketLog(fmt, ...) printf(fmt, __VA_ARGS__)
+
 #define kWebSocketHostAny      CFSTR("0.0.0.0")
 #define kWebSocketHostLoopBack CFSTR("127.0.0.1")
 #define kWebSocketPortAny      0
 
-typedef struct WebSocket WebSocket;
-typedef WebSocket *WebSocketRef;
+typedef struct WebSocket  WebSocket;
+typedef        WebSocket *WebSocketRef;
 
-typedef struct WebSocketCallbacks WebSocketCallbacks;
+typedef struct WebSocketClient  WebSocketClient;
+typedef        WebSocketClient *WebSocketClientRef;
 
-typedef struct WebSocketClient WebSocketClient;
-typedef WebSocketClient *WebSocketClientRef;
+#pragma mark WebSocket Protocol
+
+typedef enum WebSocketProtocol WebSocketProtocol;
+
+enum WebSocketProtocol {
+  kWebSocketProtocolUnknown           = -1,
+  kWebSocketProtocolDraftIETF_HYBI_00 =  0,
+  kWebSocketProtocolDraftIETF_HYBI_06 =  6
+};
 
 #pragma mark WebSocket Callbacks
 
 typedef void (*WebSocketDidAddClientCallback)     (WebSocketRef webSocket, WebSocketClientRef client);
 typedef void (*WebSocketWillRemoveClientCallback) (WebSocketRef webSocket, WebSocketClientRef client);
 typedef void (*WebSocketDidClientReadCallback)    (WebSocketRef webSocket, WebSocketClientRef client, CFStringRef value);
+
+typedef struct WebSocketCallbacks WebSocketCallbacks;
 
 struct WebSocketCallbacks {
   WebSocketDidAddClientCallback     didAddClientCallback;
@@ -55,6 +67,7 @@ struct WebSocketClient {
   CFMutableArrayRef writeQueue;
   
   CFHTTPMessageRef handShakeRequestHTTPMessage;
+  WebSocketProtocol protocol;
   
   // Linked list of clients
   WebSocketClientRef previousClient;
