@@ -8,32 +8,34 @@
 
 /* Begin PBXBuildFile section */
 		EB131D7D1327F5C900C8F095 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EB131D7B1327F5C900C8F095 /* InfoPlist.strings */; };
-		EB131D841327F60900C8F095 /* WebSocket.c in Sources */ = {isa = PBXBuildFile; fileRef = EB6077A713256A8600D98B17 /* WebSocket.c */; };
-		EB131D851327F60B00C8F095 /* WebSocketClient.c in Sources */ = {isa = PBXBuildFile; fileRef = EB6077A3132568F600D98B17 /* WebSocketClient.c */; };
-		EB131D861327F60F00C8F095 /* WebSocketString.c in Sources */ = {isa = PBXBuildFile; fileRef = EB6077A01325448600D98B17 /* WebSocketString.c */; };
-		EB131D871327F61900C8F095 /* WebSocketTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = EB6077A913256E2B00D98B17 /* WebSocketTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EB131D881327F61B00C8F095 /* WebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = EB6077A61325691C00D98B17 /* WebSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EB131D891327F61E00C8F095 /* WebSocketClient.h in Headers */ = {isa = PBXBuildFile; fileRef = EB6077A4132568F600D98B17 /* WebSocketClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EB131D8A1327F62000C8F095 /* WebSocketString.h in Headers */ = {isa = PBXBuildFile; fileRef = EB6077A11325448600D98B17 /* WebSocketString.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EB131D8D1327F63700C8F095 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB60778B1324E7FB00D98B17 /* CoreFoundation.framework */; };
 		EB131D8E1327F63900C8F095 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB6077961325111400D98B17 /* CoreServices.framework */; };
 		EB131D8F1327F63B00C8F095 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EB607798132514E800D98B17 /* libcrypto.dylib */; };
 		EB60778C1324E7FB00D98B17 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB60778B1324E7FB00D98B17 /* CoreFoundation.framework */; };
-		EB60778F1324E7FB00D98B17 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = EB60778E1324E7FB00D98B17 /* main.c */; };
 		EB6077971325111500D98B17 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB6077961325111400D98B17 /* CoreServices.framework */; };
 		EB607799132514E800D98B17 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EB607798132514E800D98B17 /* libcrypto.dylib */; };
-		EB6077A21325448600D98B17 /* WebSocketString.c in Sources */ = {isa = PBXBuildFile; fileRef = EB6077A01325448600D98B17 /* WebSocketString.c */; };
-		EB6077A5132568F600D98B17 /* WebSocketClient.c in Sources */ = {isa = PBXBuildFile; fileRef = EB6077A3132568F600D98B17 /* WebSocketClient.c */; };
-		EB6077A813256A8600D98B17 /* WebSocket.c in Sources */ = {isa = PBXBuildFile; fileRef = EB6077A713256A8600D98B17 /* WebSocket.c */; };
+		EB8414131375A255002BF1E4 /* cuEnc64.c in Sources */ = {isa = PBXBuildFile; fileRef = EB84140C1375A255002BF1E4 /* cuEnc64.c */; };
+		EB8414141375A255002BF1E4 /* cuEnc64.c in Sources */ = {isa = PBXBuildFile; fileRef = EB84140C1375A255002BF1E4 /* cuEnc64.c */; };
+		EB8414151375A255002BF1E4 /* cuEnc64.c in Sources */ = {isa = PBXBuildFile; fileRef = EB84140C1375A255002BF1E4 /* cuEnc64.c */; };
+		EB8414161375A255002BF1E4 /* cuEnc64.h in Headers */ = {isa = PBXBuildFile; fileRef = EB84140D1375A255002BF1E4 /* cuEnc64.h */; };
+		EB8414171375A255002BF1E4 /* cuEnc64.h in Headers */ = {isa = PBXBuildFile; fileRef = EB84140D1375A255002BF1E4 /* cuEnc64.h */; };
+		EB8414181375A255002BF1E4 /* WebSocket.c in Sources */ = {isa = PBXBuildFile; fileRef = EB84140E1375A255002BF1E4 /* WebSocket.c */; };
+		EB8414191375A255002BF1E4 /* WebSocket.c in Sources */ = {isa = PBXBuildFile; fileRef = EB84140E1375A255002BF1E4 /* WebSocket.c */; };
+		EB84141A1375A255002BF1E4 /* WebSocket.c in Sources */ = {isa = PBXBuildFile; fileRef = EB84140E1375A255002BF1E4 /* WebSocket.c */; };
+		EB84141B1375A255002BF1E4 /* WebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = EB84140F1375A255002BF1E4 /* WebSocket.h */; };
+		EB84141C1375A255002BF1E4 /* WebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = EB84140F1375A255002BF1E4 /* WebSocket.h */; };
+		EB84141D1375A255002BF1E4 /* WebSocketClient.c in Sources */ = {isa = PBXBuildFile; fileRef = EB8414101375A255002BF1E4 /* WebSocketClient.c */; };
+		EB84141E1375A255002BF1E4 /* WebSocketClient.c in Sources */ = {isa = PBXBuildFile; fileRef = EB8414101375A255002BF1E4 /* WebSocketClient.c */; };
+		EB84141F1375A255002BF1E4 /* WebSocketClient.c in Sources */ = {isa = PBXBuildFile; fileRef = EB8414101375A255002BF1E4 /* WebSocketClient.c */; };
+		EB8414201375A255002BF1E4 /* WebSocketClient.h in Headers */ = {isa = PBXBuildFile; fileRef = EB8414111375A255002BF1E4 /* WebSocketClient.h */; };
+		EB8414211375A255002BF1E4 /* WebSocketClient.h in Headers */ = {isa = PBXBuildFile; fileRef = EB8414111375A255002BF1E4 /* WebSocketClient.h */; };
+		EB8414221375A255002BF1E4 /* WebSocketTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = EB8414121375A255002BF1E4 /* WebSocketTypes.h */; };
+		EB8414231375A255002BF1E4 /* WebSocketTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = EB8414121375A255002BF1E4 /* WebSocketTypes.h */; };
 		EBB035A31327F70B005EF338 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBB035A21327F70B005EF338 /* CoreFoundation.framework */; };
 		EBB035A51327F711005EF338 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBB035A41327F711005EF338 /* CFNetwork.framework */; };
-		EBB035A61327F71F005EF338 /* WebSocket.c in Sources */ = {isa = PBXBuildFile; fileRef = EB6077A713256A8600D98B17 /* WebSocket.c */; };
-		EBB035A71327F720005EF338 /* WebSocketClient.c in Sources */ = {isa = PBXBuildFile; fileRef = EB6077A3132568F600D98B17 /* WebSocketClient.c */; };
-		EBB035A81327F721005EF338 /* WebSocketString.c in Sources */ = {isa = PBXBuildFile; fileRef = EB6077A01325448600D98B17 /* WebSocketString.c */; };
-		EBB035A91327F726005EF338 /* WebSocketTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = EB6077A913256E2B00D98B17 /* WebSocketTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EBB035AA1327F728005EF338 /* WebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = EB6077A61325691C00D98B17 /* WebSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EBB035AB1327F72A005EF338 /* WebSocketClient.h in Headers */ = {isa = PBXBuildFile; fileRef = EB6077A4132568F600D98B17 /* WebSocketClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EBB035AC1327F72F005EF338 /* WebSocketString.h in Headers */ = {isa = PBXBuildFile; fileRef = EB6077A11325448600D98B17 /* WebSocketString.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EBF1E9B71375A2F1009F3C50 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = EBF1E9B61375A2F1009F3C50 /* main.c */; };
+		EBF1E9B91375A334009F3C50 /* CoreWebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF1E9B81375A334009F3C50 /* CoreWebSocket.h */; };
+		EBF1E9BA1375A334009F3C50 /* CoreWebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF1E9B81375A334009F3C50 /* CoreWebSocket.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -55,21 +57,20 @@
 		EB131D7E1327F5C900C8F095 /* CoreWebSocket-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoreWebSocket-Prefix.pch"; sourceTree = "<group>"; };
 		EB6077871324E7FB00D98B17 /* CoreWebSocketConsole */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CoreWebSocketConsole; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB60778B1324E7FB00D98B17 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		EB60778E1324E7FB00D98B17 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		EB6077901324E7FB00D98B17 /* CoreWebSocket.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = CoreWebSocket.1; sourceTree = "<group>"; };
 		EB6077961325111400D98B17 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		EB607798132514E800D98B17 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
-		EB6077A01325448600D98B17 /* WebSocketString.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WebSocketString.c; sourceTree = "<group>"; };
-		EB6077A11325448600D98B17 /* WebSocketString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketString.h; sourceTree = "<group>"; };
-		EB6077A3132568F600D98B17 /* WebSocketClient.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WebSocketClient.c; sourceTree = "<group>"; };
-		EB6077A4132568F600D98B17 /* WebSocketClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketClient.h; sourceTree = "<group>"; };
-		EB6077A61325691C00D98B17 /* WebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocket.h; sourceTree = "<group>"; };
-		EB6077A713256A8600D98B17 /* WebSocket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WebSocket.c; sourceTree = "<group>"; };
-		EB6077A913256E2B00D98B17 /* WebSocketTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketTypes.h; sourceTree = "<group>"; };
+		EB84140C1375A255002BF1E4 /* cuEnc64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cuEnc64.c; sourceTree = "<group>"; };
+		EB84140D1375A255002BF1E4 /* cuEnc64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cuEnc64.h; sourceTree = "<group>"; };
+		EB84140E1375A255002BF1E4 /* WebSocket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WebSocket.c; sourceTree = "<group>"; };
+		EB84140F1375A255002BF1E4 /* WebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocket.h; sourceTree = "<group>"; };
+		EB8414101375A255002BF1E4 /* WebSocketClient.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WebSocketClient.c; sourceTree = "<group>"; };
+		EB8414111375A255002BF1E4 /* WebSocketClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketClient.h; sourceTree = "<group>"; };
+		EB8414121375A255002BF1E4 /* WebSocketTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketTypes.h; sourceTree = "<group>"; };
 		EBB035981327F6FA005EF338 /* libCoreWebSocket_iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCoreWebSocket_iOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		EBB0359D1327F6FA005EF338 /* CoreWebSocket_iOS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoreWebSocket_iOS-Prefix.pch"; sourceTree = "<group>"; };
 		EBB035A21327F70B005EF338 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.3.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		EBB035A41327F711005EF338 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.3.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
+		EBF1E9B61375A2F1009F3C50 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = CoreWebSocket/main.c; sourceTree = "<group>"; };
+		EBF1E9B81375A334009F3C50 /* CoreWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreWebSocket.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +109,14 @@
 		EB131D781327F5C900C8F095 /* CoreWebSocket */ = {
 			isa = PBXGroup;
 			children = (
+				EBF1E9B81375A334009F3C50 /* CoreWebSocket.h */,
+				EB8414121375A255002BF1E4 /* WebSocketTypes.h */,
+				EB84140F1375A255002BF1E4 /* WebSocket.h */,
+				EB84140E1375A255002BF1E4 /* WebSocket.c */,
+				EB8414111375A255002BF1E4 /* WebSocketClient.h */,
+				EB8414101375A255002BF1E4 /* WebSocketClient.c */,
+				EB84140D1375A255002BF1E4 /* cuEnc64.h */,
+				EB84140C1375A255002BF1E4 /* cuEnc64.c */,
 				EB131D791327F5C900C8F095 /* Supporting Files */,
 			);
 			path = CoreWebSocket;
@@ -145,9 +154,8 @@
 		EB60777C1324E7FB00D98B17 = {
 			isa = PBXGroup;
 			children = (
-				EB60778D1324E7FB00D98B17 /* CoreWebSocket */,
+				EBF1E9B41375A2E5009F3C50 /* Console */,
 				EB131D781327F5C900C8F095 /* CoreWebSocket */,
-				EBB0359B1327F6FA005EF338 /* CoreWebSocket_iOS */,
 				EB60778A1324E7FB00D98B17 /* Frameworks */,
 				EB6077881324E7FB00D98B17 /* Products */,
 			);
@@ -172,37 +180,12 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		EB60778D1324E7FB00D98B17 /* CoreWebSocket */ = {
+		EBF1E9B41375A2E5009F3C50 /* Console */ = {
 			isa = PBXGroup;
 			children = (
-				EB6077A913256E2B00D98B17 /* WebSocketTypes.h */,
-				EB6077A61325691C00D98B17 /* WebSocket.h */,
-				EB6077A713256A8600D98B17 /* WebSocket.c */,
-				EB6077A4132568F600D98B17 /* WebSocketClient.h */,
-				EB6077A3132568F600D98B17 /* WebSocketClient.c */,
-				EB6077A11325448600D98B17 /* WebSocketString.h */,
-				EB6077A01325448600D98B17 /* WebSocketString.c */,
-				EB60778E1324E7FB00D98B17 /* main.c */,
-				EB6077901324E7FB00D98B17 /* CoreWebSocket.1 */,
+				EBF1E9B61375A2F1009F3C50 /* main.c */,
 			);
-			name = CoreWebSocket;
-			path = WebSocketCore;
-			sourceTree = "<group>";
-		};
-		EBB0359B1327F6FA005EF338 /* CoreWebSocket_iOS */ = {
-			isa = PBXGroup;
-			children = (
-				EBB0359C1327F6FA005EF338 /* Supporting Files */,
-			);
-			path = CoreWebSocket_iOS;
-			sourceTree = "<group>";
-		};
-		EBB0359C1327F6FA005EF338 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				EBB0359D1327F6FA005EF338 /* CoreWebSocket_iOS-Prefix.pch */,
-			);
-			name = "Supporting Files";
+			name = Console;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -212,10 +195,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB131D871327F61900C8F095 /* WebSocketTypes.h in Headers */,
-				EB131D8A1327F62000C8F095 /* WebSocketString.h in Headers */,
-				EB131D881327F61B00C8F095 /* WebSocket.h in Headers */,
-				EB131D891327F61E00C8F095 /* WebSocketClient.h in Headers */,
+				EB8414161375A255002BF1E4 /* cuEnc64.h in Headers */,
+				EB84141B1375A255002BF1E4 /* WebSocket.h in Headers */,
+				EB8414201375A255002BF1E4 /* WebSocketClient.h in Headers */,
+				EB8414221375A255002BF1E4 /* WebSocketTypes.h in Headers */,
+				EBF1E9B91375A334009F3C50 /* CoreWebSocket.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,10 +207,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EBB035A91327F726005EF338 /* WebSocketTypes.h in Headers */,
-				EBB035AA1327F728005EF338 /* WebSocket.h in Headers */,
-				EBB035AB1327F72A005EF338 /* WebSocketClient.h in Headers */,
-				EBB035AC1327F72F005EF338 /* WebSocketString.h in Headers */,
+				EB8414171375A255002BF1E4 /* cuEnc64.h in Headers */,
+				EB84141C1375A255002BF1E4 /* WebSocket.h in Headers */,
+				EB8414211375A255002BF1E4 /* WebSocketClient.h in Headers */,
+				EB8414231375A255002BF1E4 /* WebSocketTypes.h in Headers */,
+				EBF1E9BA1375A334009F3C50 /* CoreWebSocket.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,9 +313,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB131D841327F60900C8F095 /* WebSocket.c in Sources */,
-				EB131D851327F60B00C8F095 /* WebSocketClient.c in Sources */,
-				EB131D861327F60F00C8F095 /* WebSocketString.c in Sources */,
+				EB8414141375A255002BF1E4 /* cuEnc64.c in Sources */,
+				EB8414191375A255002BF1E4 /* WebSocket.c in Sources */,
+				EB84141E1375A255002BF1E4 /* WebSocketClient.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,10 +323,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB60778F1324E7FB00D98B17 /* main.c in Sources */,
-				EB6077A21325448600D98B17 /* WebSocketString.c in Sources */,
-				EB6077A5132568F600D98B17 /* WebSocketClient.c in Sources */,
-				EB6077A813256A8600D98B17 /* WebSocket.c in Sources */,
+				EB8414131375A255002BF1E4 /* cuEnc64.c in Sources */,
+				EB8414181375A255002BF1E4 /* WebSocket.c in Sources */,
+				EB84141D1375A255002BF1E4 /* WebSocketClient.c in Sources */,
+				EBF1E9B71375A2F1009F3C50 /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,9 +334,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EBB035A61327F71F005EF338 /* WebSocket.c in Sources */,
-				EBB035A71327F720005EF338 /* WebSocketClient.c in Sources */,
-				EBB035A81327F721005EF338 /* WebSocketString.c in Sources */,
+				EB8414151375A255002BF1E4 /* cuEnc64.c in Sources */,
+				EB84141A1375A255002BF1E4 /* WebSocket.c in Sources */,
+				EB84141F1375A255002BF1E4 /* WebSocketClient.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,6 +405,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/\"";
 			};
 			name = Debug;
 		};
@@ -434,6 +420,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/\"";
 			};
 			name = Release;
 		};
@@ -528,6 +515,7 @@
 				EBB0359F1327F6FA005EF338 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

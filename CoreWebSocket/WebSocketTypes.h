@@ -6,6 +6,9 @@
 //  Copyright 2011 Inteliv Ltd. All rights reserved.
 //
 
+#ifndef __CORE_WEB_SOCKET_TYPES__
+#define __CORE_WEB_SOCKET_TYPES__ 1
+
 #include <CoreFoundation/CoreFoundation.h>
 
 #define WebSocketLog(fmt, ...) printf(fmt, __VA_ARGS__)
@@ -98,3 +101,6 @@ struct WebSocket {
   
   WebSocketCallbacks callbacks;
 };
+
+#endif
+

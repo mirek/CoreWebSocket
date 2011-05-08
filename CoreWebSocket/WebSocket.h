@@ -6,29 +6,10 @@
 //  Copyright 2011 Inteliv Ltd. All rights reserved.
 //
 
-#ifndef __CORE_WEB_SOCKET__
-#define __CORE_WEB_SOCKET__ 1
+#ifndef __CORE_WEB_SOCKET_WEB_SOCKET__
+#define __CORE_WEB_SOCKET_WEB_SOCKET__ 1
 
-#include <CoreFoundation/CoreFoundation.h>
-#include <unistd.h>
-#include <netdb.h>
-
-#import <CommonCrypto/CommonDigest.h>
-
-#if (TARGET_OS_IPHONE)
-#include <CFNetwork/CFNetwork.h>
-#else
-#include <CoreServices/CoreServices.h>
-#include <openssl/evp.h>
-#include <openssl/err.h>
-#endif
-
-#include <arpa/inet.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-
-#include "WebSocketTypes.h"
-#include "WebSocketClient.h"
+#include "CoreWebSocket/CoreWebSocket.h"
 
 #define __WebSocketMaxHeaderKeyLength 4096
 
