@@ -31,6 +31,9 @@
 		EB8414211375A255002BF1E4 /* WebSocketClient.h in Headers */ = {isa = PBXBuildFile; fileRef = EB8414111375A255002BF1E4 /* WebSocketClient.h */; };
 		EB8414221375A255002BF1E4 /* WebSocketTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = EB8414121375A255002BF1E4 /* WebSocketTypes.h */; };
 		EB8414231375A255002BF1E4 /* WebSocketTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = EB8414121375A255002BF1E4 /* WebSocketTypes.h */; };
+		EB93B6E516C19F780004C53A /* WebSocketFrame.c in Sources */ = {isa = PBXBuildFile; fileRef = EB93B6E416C19F780004C53A /* WebSocketFrame.c */; };
+		EB93B6E616C19F780004C53A /* WebSocketFrame.c in Sources */ = {isa = PBXBuildFile; fileRef = EB93B6E416C19F780004C53A /* WebSocketFrame.c */; };
+		EB93B6E716C19F780004C53A /* WebSocketFrame.c in Sources */ = {isa = PBXBuildFile; fileRef = EB93B6E416C19F780004C53A /* WebSocketFrame.c */; };
 		EBB035A31327F70B005EF338 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBB035A21327F70B005EF338 /* CoreFoundation.framework */; };
 		EBB035A51327F711005EF338 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBB035A41327F711005EF338 /* CFNetwork.framework */; };
 		EBF1E9B71375A2F1009F3C50 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = EBF1E9B61375A2F1009F3C50 /* main.c */; };
@@ -66,6 +69,8 @@
 		EB8414101375A255002BF1E4 /* WebSocketClient.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WebSocketClient.c; sourceTree = "<group>"; };
 		EB8414111375A255002BF1E4 /* WebSocketClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketClient.h; sourceTree = "<group>"; };
 		EB8414121375A255002BF1E4 /* WebSocketTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketTypes.h; sourceTree = "<group>"; };
+		EB93B6E316C195840004C53A /* WebSocketFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebSocketFrame.h; sourceTree = "<group>"; };
+		EB93B6E416C19F780004C53A /* WebSocketFrame.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WebSocketFrame.c; sourceTree = "<group>"; };
 		EBB035981327F6FA005EF338 /* libCoreWebSocket_iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCoreWebSocket_iOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBB035A21327F70B005EF338 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.3.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		EBB035A41327F711005EF338 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS4.3.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
@@ -110,6 +115,8 @@
 			isa = PBXGroup;
 			children = (
 				EBF1E9B81375A334009F3C50 /* CoreWebSocket.h */,
+				EB93B6E316C195840004C53A /* WebSocketFrame.h */,
+				EB93B6E416C19F780004C53A /* WebSocketFrame.c */,
 				EB8414121375A255002BF1E4 /* WebSocketTypes.h */,
 				EB84140F1375A255002BF1E4 /* WebSocket.h */,
 				EB84140E1375A255002BF1E4 /* WebSocket.c */,
@@ -276,6 +283,7 @@
 		EB60777E1324E7FB00D98B17 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Inteliv Ltd";
 			};
 			buildConfigurationList = EB6077811324E7FB00D98B17 /* Build configuration list for PBXProject "CoreWebSocket" */;
@@ -316,6 +324,7 @@
 				EB8414141375A255002BF1E4 /* cuEnc64.c in Sources */,
 				EB8414191375A255002BF1E4 /* WebSocket.c in Sources */,
 				EB84141E1375A255002BF1E4 /* WebSocketClient.c in Sources */,
+				EB93B6E616C19F780004C53A /* WebSocketFrame.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +336,7 @@
 				EB8414181375A255002BF1E4 /* WebSocket.c in Sources */,
 				EB84141D1375A255002BF1E4 /* WebSocketClient.c in Sources */,
 				EBF1E9B71375A2F1009F3C50 /* main.c in Sources */,
+				EB93B6E516C19F780004C53A /* WebSocketFrame.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,6 +347,7 @@
 				EB8414151375A255002BF1E4 /* cuEnc64.c in Sources */,
 				EB84141A1375A255002BF1E4 /* WebSocket.c in Sources */,
 				EB84141F1375A255002BF1E4 /* WebSocketClient.c in Sources */,
+				EB93B6E716C19F780004C53A /* WebSocketFrame.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,6 +369,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -376,6 +388,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -394,6 +407,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
@@ -401,6 +418,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
@@ -413,10 +431,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx;
@@ -454,7 +477,7 @@
 				DSTROOT = /tmp/CoreWebSocket_iOS.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CoreWebSocket_iOS/CoreWebSocket_iOS-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -470,7 +493,7 @@
 				DSTROOT = /tmp/CoreWebSocket_iOS.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CoreWebSocket_iOS/CoreWebSocket_iOS-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

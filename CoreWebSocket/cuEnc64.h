@@ -43,23 +43,6 @@ unsigned char *cuEnc64WithLines(const unsigned char *inbuf,
 	unsigned linelen,
 	unsigned *outlen);		// RETURNED
 
-/*
- * Given input buffer inbuf, length inlen, decode from 64-char IA5 format to
- * binary. Result is malloced and returned; its length is returned in *outlen.
- * NULL return indicates corrupted input. All whitespace in inbuf is
- * ignored.
- */
-unsigned char *cuDec64(const unsigned char *inbuf,
-	unsigned inlen,
-	unsigned *outlen);
-
-/*
- * Determine if specified input data is valid enc64 format. Returns 1
- * if valid, 0 if not.
- */
-int cuIsValidEnc64(const unsigned char *inbuf,
-	unsigned inbufLen);
-
 #ifdef __cplusplus
 }
 #endif
