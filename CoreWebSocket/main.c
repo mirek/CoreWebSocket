@@ -31,7 +31,7 @@ Callback (WebSocketRef self, WebSocketClientRef client, CFStringRef value) {
 
 int
 main (int argc, const char *argv[]) {
-    WebSocketRef webSocket = WebSocketCreateWithHostAndPort(NULL, kWebSocketHostAny, 60001, NULL);
+    WebSocketRef webSocket = WebSocketCreateWithHostAndPort(NULL, kWebSocketHostAny, 6001, NULL);
     if (webSocket) {
         webSocket->callbacks.didClientReadCallback = Callback;
         CFRunLoopRun();

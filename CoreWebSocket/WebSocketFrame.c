@@ -238,13 +238,13 @@ WebSocketFrameParse (WebSocketFrameRef self) {
                         UInt8 byte1 = __WebSocketFrameUInt8(self, i);
                         UInt8 byte2 = __WebSocketFrameUInt8(self, i + 1);
                         
-                        self->isFin = byte1 & 1 ? TRUE : FALSE;
-                        self->isRsv1 = byte1 & 2 ? TRUE : FALSE;
-                        self->isRsv2 = byte1 & 3 ? TRUE : FALSE;
-                        self->isRsv3 = byte1 & 4 ? TRUE : FALSE;
-                        self->opCode = (WebSocketFrameOpCode) (byte1 >> 4) & 15;
+                        self->isFin  = byte1 & (1 << 7) ? TRUE : FALSE;
+                        self->isRsv1 = byte1 & (1 << 6) ? TRUE : FALSE;
+                        self->isRsv2 = byte1 & (1 << 5) ? TRUE : FALSE;
+                        self->isRsv3 = byte1 & (1 << 4) ? TRUE : FALSE;
+                        self->opCode = (WebSocketFrameOpCode) (byte1 & 0xf);
                         
-                        self->isMasked = byte2 & 1 ? TRUE : FALSE;
+                        self->isMasked = byte2 & (1 << 7) ? TRUE : FALSE;
                         self->payloadLength = (byte2 & 127);
                         
                         switch (self->payloadLength) {

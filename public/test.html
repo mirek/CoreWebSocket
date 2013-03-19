@@ -47,7 +47,7 @@ xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         
         this.__send = function(t, n, v) {
           var j = JSON.stringify([t, n, v])
-          // console.log(j)
+          console.log(j)
           return this.webSocket.send(j)
         }
         
@@ -61,7 +61,7 @@ xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         
       }
       
-      var osc  = new Osc();
+      var osc  = new Osc({ host: '127.0.0.1', port: 6001 });
       
       var element = document.getElementById('circle')
 
