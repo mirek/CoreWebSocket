@@ -7,39 +7,53 @@ with all modern web browsers including Safari, Chrome, Firefox and Opera. It wor
 
 ## Installation
 
-To use the library in your git project:
+To get the library using git in your project:
 
     git submodule add git://github.com/mirek/CoreWebSocket.git CoreWebSocket
+
+Then to add the library to your project
     
-Link your target with:
+1. Add CoreWebSocket.xcodeproj to project
+2. In to targets Build Phases
+    1. In Target Dependencies add
+          + CoreWebSocket
+    2. In Link Binary With Libraries add
+          + CFNetwork.framework
+          + CoreServices.framework
+          + libcrypto.dylib
+          + CoreWebSocket.framework
+    3. Add Build Phase > Add Copy Files
+         1. Set Destination to be Frameworks
+         2. Add CoreWebSocket.framework
+3. Clean
+4. Build CoreWebSocket
+5. Build your app
 
-* `CFNetwork.framework` - on iOS
-* `libcrypto.dylib`, `CoreServices.framework` - on Mac OSX
+# Usage
 
-## Usage
+Exmaple AppDelegate.m
 
-    #include "CoreWebSocket/CoreWebSocket.h"
 
-    // Somewhere in init
-    CFAllocatorRef allocator = NULL;
-    WebSocketRef webSocket = CoreWebSocketCreate(allocator, CFSTR("localhost"), 60001);
+	#import "AppDelegate.h"
+	#include "CoreWebSocket/CoreWebSocket.h"
 
-    // Send data to all connected clients
-    WebSocketWriteWithString(webSocket, CFSTR("foo, bar"));
-    
-    // To receive data from connected clients, declare the callback of type:
-    // typedef void (*WebSocketDidClientReadCallback) (WebSocketRef webSocket, WebSocketClientRef client, CFStringRef value);
-    
-    void MyWebSocketDidClientReadCallback(WebSocketRef webSocket, WebSocketClientRef client, CFStringRef value) {
-      printf("my read callback, the client sent:\n");
-      CFShow(value);
-    }
-    
-    // ...and set the callback:
-    WebSocketSetClientReadCallback(webSocket, MyWebSocketDidClientReadCallback);
+	@implementation AppDelegate
 
-    // Somewhere in dealloc
-    WebSocketRelease(webSocket);
+	void Callback(WebSocketRef self, WebSocketClientRef client, CFStringRef value) {
+	    if (value) {
+	        CFShow(value);
+	    }
+	}
+
+	- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+	{
+	    WebSocketRef webSocket = WebSocketCreateWithHostAndPort(NULL, kWebSocketHostAny, 6001, NULL);
+	    if (webSocket) {
+	        webSocket->callbacks.didClientReadCallback = Callback;
+	    }
+	}
+
+	@end
 
 ## Web Browser Usage
 
