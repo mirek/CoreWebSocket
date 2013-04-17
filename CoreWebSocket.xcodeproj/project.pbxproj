@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9194067A171F23B0009B64F8 /* WebSocketFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = EB93B6E316C195840004C53A /* WebSocketFrame.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EB131D7D1327F5C900C8F095 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EB131D7B1327F5C900C8F095 /* InfoPlist.strings */; };
 		EB131D8D1327F63700C8F095 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB60778B1324E7FB00D98B17 /* CoreFoundation.framework */; };
 		EB131D8E1327F63900C8F095 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB6077961325111400D98B17 /* CoreServices.framework */; };
@@ -17,19 +18,19 @@
 		EB8414131375A255002BF1E4 /* cuEnc64.c in Sources */ = {isa = PBXBuildFile; fileRef = EB84140C1375A255002BF1E4 /* cuEnc64.c */; };
 		EB8414141375A255002BF1E4 /* cuEnc64.c in Sources */ = {isa = PBXBuildFile; fileRef = EB84140C1375A255002BF1E4 /* cuEnc64.c */; };
 		EB8414151375A255002BF1E4 /* cuEnc64.c in Sources */ = {isa = PBXBuildFile; fileRef = EB84140C1375A255002BF1E4 /* cuEnc64.c */; };
-		EB8414161375A255002BF1E4 /* cuEnc64.h in Headers */ = {isa = PBXBuildFile; fileRef = EB84140D1375A255002BF1E4 /* cuEnc64.h */; };
+		EB8414161375A255002BF1E4 /* cuEnc64.h in Headers */ = {isa = PBXBuildFile; fileRef = EB84140D1375A255002BF1E4 /* cuEnc64.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EB8414171375A255002BF1E4 /* cuEnc64.h in Headers */ = {isa = PBXBuildFile; fileRef = EB84140D1375A255002BF1E4 /* cuEnc64.h */; };
 		EB8414181375A255002BF1E4 /* WebSocket.c in Sources */ = {isa = PBXBuildFile; fileRef = EB84140E1375A255002BF1E4 /* WebSocket.c */; };
 		EB8414191375A255002BF1E4 /* WebSocket.c in Sources */ = {isa = PBXBuildFile; fileRef = EB84140E1375A255002BF1E4 /* WebSocket.c */; };
 		EB84141A1375A255002BF1E4 /* WebSocket.c in Sources */ = {isa = PBXBuildFile; fileRef = EB84140E1375A255002BF1E4 /* WebSocket.c */; };
-		EB84141B1375A255002BF1E4 /* WebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = EB84140F1375A255002BF1E4 /* WebSocket.h */; };
+		EB84141B1375A255002BF1E4 /* WebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = EB84140F1375A255002BF1E4 /* WebSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EB84141C1375A255002BF1E4 /* WebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = EB84140F1375A255002BF1E4 /* WebSocket.h */; };
 		EB84141D1375A255002BF1E4 /* WebSocketClient.c in Sources */ = {isa = PBXBuildFile; fileRef = EB8414101375A255002BF1E4 /* WebSocketClient.c */; };
 		EB84141E1375A255002BF1E4 /* WebSocketClient.c in Sources */ = {isa = PBXBuildFile; fileRef = EB8414101375A255002BF1E4 /* WebSocketClient.c */; };
 		EB84141F1375A255002BF1E4 /* WebSocketClient.c in Sources */ = {isa = PBXBuildFile; fileRef = EB8414101375A255002BF1E4 /* WebSocketClient.c */; };
-		EB8414201375A255002BF1E4 /* WebSocketClient.h in Headers */ = {isa = PBXBuildFile; fileRef = EB8414111375A255002BF1E4 /* WebSocketClient.h */; };
+		EB8414201375A255002BF1E4 /* WebSocketClient.h in Headers */ = {isa = PBXBuildFile; fileRef = EB8414111375A255002BF1E4 /* WebSocketClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EB8414211375A255002BF1E4 /* WebSocketClient.h in Headers */ = {isa = PBXBuildFile; fileRef = EB8414111375A255002BF1E4 /* WebSocketClient.h */; };
-		EB8414221375A255002BF1E4 /* WebSocketTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = EB8414121375A255002BF1E4 /* WebSocketTypes.h */; };
+		EB8414221375A255002BF1E4 /* WebSocketTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = EB8414121375A255002BF1E4 /* WebSocketTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EB8414231375A255002BF1E4 /* WebSocketTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = EB8414121375A255002BF1E4 /* WebSocketTypes.h */; };
 		EB93B6E516C19F780004C53A /* WebSocketFrame.c in Sources */ = {isa = PBXBuildFile; fileRef = EB93B6E416C19F780004C53A /* WebSocketFrame.c */; };
 		EB93B6E616C19F780004C53A /* WebSocketFrame.c in Sources */ = {isa = PBXBuildFile; fileRef = EB93B6E416C19F780004C53A /* WebSocketFrame.c */; };
@@ -37,7 +38,7 @@
 		EBB035A31327F70B005EF338 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBB035A21327F70B005EF338 /* CoreFoundation.framework */; };
 		EBB035A51327F711005EF338 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBB035A41327F711005EF338 /* CFNetwork.framework */; };
 		EBF1E9B71375A2F1009F3C50 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = EBF1E9B61375A2F1009F3C50 /* main.c */; };
-		EBF1E9B91375A334009F3C50 /* CoreWebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF1E9B81375A334009F3C50 /* CoreWebSocket.h */; };
+		EBF1E9B91375A334009F3C50 /* CoreWebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF1E9B81375A334009F3C50 /* CoreWebSocket.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EBF1E9BA1375A334009F3C50 /* CoreWebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF1E9B81375A334009F3C50 /* CoreWebSocket.h */; };
 /* End PBXBuildFile section */
 
@@ -207,6 +208,7 @@
 				EB8414201375A255002BF1E4 /* WebSocketClient.h in Headers */,
 				EB8414221375A255002BF1E4 /* WebSocketTypes.h in Headers */,
 				EBF1E9B91375A334009F3C50 /* CoreWebSocket.h in Headers */,
+				9194067A171F23B0009B64F8 /* WebSocketFrame.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
