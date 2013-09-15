@@ -391,60 +391,62 @@ void __WebSocketClientWriteCallBack(CFWriteStreamRef stream, CFStreamEventType e
 #pragma mark Lifecycle
 
 WebSocketClientRef WebSocketClientCreate(WebSocketRef webSocket, CFSocketNativeHandle handle) {
-    WebSocketClientRef client = NULL;
+    WebSocketClientRef self = NULL;
     if (webSocket) {
-        client = CFAllocatorAllocate(webSocket->allocator, sizeof(WebSocketClient), 0);
-        if (client) {
-            client->allocator = webSocket->allocator ? CFRetain(webSocket->allocator) : NULL;
-            client->retainCount = 1;
+        self = CFAllocatorAllocate(webSocket->allocator, sizeof(WebSocketClient), 0);
+        if (self) {
+            self->allocator = webSocket->allocator ? CFRetain(webSocket->allocator) : NULL;
+            self->retainCount = 1;
             
-            WebSocketRetain(webSocket), client->webSocket = webSocket;
-            client->handle = handle;
+            WebSocketRetain(webSocket), self->webSocket = webSocket;
+            self->handle = handle;
+
+            self->currentData = CFDataCreateMutable(self->allocator, 0);
+            self->frame = WebSocketFrameCreate(self->allocator);
             
-            client->frame = WebSocketFrameCreate(client->allocator);
+            self->read = NULL;
+            self->write = NULL;
             
-            client->read = NULL;
-            client->write = NULL;
+            self->context.version = 0;
+            self->context.info = self;
+            self->context.copyDescription = NULL;
+            self->context.retain = NULL;
+            self->context.release = NULL;
             
-            client->context.version = 0;
-            client->context.info = client;
-            client->context.copyDescription = NULL;
-            client->context.retain = NULL;
-            client->context.release = NULL;
+            self->handShakeRequestHTTPMessage = NULL;
+            self->didReadHandShake = 0;
+            self->didWriteHandShake = 0;
+            self->protocol = kWebSocketProtocolUnknown;
             
-            client->handShakeRequestHTTPMessage = NULL;
-            client->didReadHandShake = 0;
-            client->didWriteHandShake = 0;
-            client->protocol = kWebSocketProtocolUnknown;
-            
-            CFStreamCreatePairWithSocket(client->allocator, handle, &client->read, &client->write);
-            if (!client->read || !client->write) {
+            CFStreamCreatePairWithSocket(self->allocator, handle, &self->read, &self->write);
+            if (!self->read || !self->write) {
                 close(handle);
                 fprintf(stderr, "CFStreamCreatePairWithSocket() failed, %p, %p\n", read, write);
             } else {
                 //        printf("ok\n");
             }
+
+            CFOptionFlags flags = kCFStreamEventOpenCompleted | kCFStreamEventErrorOccurred | kCFStreamEventEndEncountered;
+            CFReadStreamSetClient(self->read, flags | kCFStreamEventHasBytesAvailable, __WebSocketClientReadCallBack, &self->context);
+            CFWriteStreamSetClient(self->write, flags | kCFStreamEventCanAcceptBytes, __WebSocketClientWriteCallBack, &self->context);
             
-            CFReadStreamSetClient(client->read, kCFStreamEventOpenCompleted | kCFStreamEventHasBytesAvailable | kCFStreamEventErrorOccurred | kCFStreamEventEndEncountered, __WebSocketClientReadCallBack, &client->context);
-            CFWriteStreamSetClient(client->write, kCFStreamEventOpenCompleted | kCFStreamEventCanAcceptBytes | kCFStreamEventErrorOccurred | kCFStreamEventEndEncountered, __WebSocketClientWriteCallBack, &client->context);
+            CFReadStreamScheduleWithRunLoop(self->read, CFRunLoopGetCurrent(), kCFRunLoopCommonModes);
+            CFWriteStreamScheduleWithRunLoop(self->write, CFRunLoopGetCurrent(), kCFRunLoopCommonModes);
             
-            CFReadStreamScheduleWithRunLoop(client->read, CFRunLoopGetCurrent(), kCFRunLoopCommonModes);
-            CFWriteStreamScheduleWithRunLoop(client->write, CFRunLoopGetCurrent(), kCFRunLoopCommonModes);
-            
-            if (!CFReadStreamOpen(client->read)) {
+            if (!CFReadStreamOpen(self->read)) {
                 printf("couldn't open read stream\n");
             } else {
                 //        printf("opened read stream\n");
             }
             
-            if (!CFWriteStreamOpen(client->write)) {
+            if (!CFWriteStreamOpen(self->write)) {
                 printf("couldn't open write stream\n");
             } else {
                 //        printf("opened write stream\n");
             }
         }
     }
-    return client;
+    return self;
 }
 
 void
