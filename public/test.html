@@ -1,28 +1,12 @@
-<?xml version="1.0"?>
-<html xmlns="http://www.w3.org/1999/xhtml"
-xmlns:svg="http://www.w3.org/2000/svg" 
-xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
->
+<html>
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" /> 
-    <title></title>
-    <script type="text/javascript" charset="utf-8">
-      // var osc = new Osc();
-      
-    </script>
+    <title>CoreWebSocket Example</title>
   </head>
   <body>
-    
-    <!-- <svg:svg id="tri" width="600px" height="400px" style="display:block; -webkit-transform: rotate(90deg)">
-      <svg:polygon id="triangle" points="50,50 50,300 300,300" style="fill:blue; stroke:black; -webkit-transform: rotate(90deg)"/>
-    </svg:svg> -->
 
-    <svg:svg id="circle" width="100px" height="100px" style="position: absolute; top: 0; left: 0">
-      <svg:circle cx="50" cy="50" r="40" stroke="black" stroke-width="10" fill="gray" />
-    </svg:svg>
-    
-    <textarea id="info"></textarea>
-    
+    <div id="box" style="position: absolute; top: 100px; left: 100px; background-color: gray; width: 50px; height: 50px; color: white; font-size: 10px; text-align: center; cursor: pointer"></div>
+
     <script type="text/javascript" charset="utf-8">
       
       function Osc(options) {
@@ -64,6 +48,7 @@ xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
       var osc  = new Osc({ host: '127.0.0.1', port: 6001 });
       
       var element = document.getElementById('circle')
+      var box = document.getElementById('box')
 
       document.ontouchstart = function(e) {
         e.preventDefault()
@@ -79,6 +64,10 @@ xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
       
       document.onmousemove = function(e) {
         // if (triangle) {
+          
+          box.style.left = (e.pageX - 25) + 'px'
+          box.style.top = (e.pageY - 25) + 'px'
+          box.innerHTML = e.pageX + ' x ' + e.pageY
           
           osc.sendFloat32('/pageX', e.pageX)
           osc.sendFloat32('/pageY', e.pageY)
