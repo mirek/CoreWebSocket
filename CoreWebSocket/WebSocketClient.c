@@ -83,45 +83,30 @@ __WebSocketClientWriteHandShake (WebSocketClientRef client);
 
 void
 __WebSocketClientReadFrame (WebSocketClientRef self, CFReadStreamRef stream) {
-
+    
     // Did handshake already and there are bytes to read.
     // It's an incomming message.
     UInt8 b[4096];
     memset(b, 0, sizeof(b));
-    
+    CFIndex by = 0;
     if (CFReadStreamHasBytesAvailable(self->read)) {
-        CFIndex numBytesRead=0;
-        numBytesRead = CFReadStreamRead(stream, b, sizeof(b) - 1);
-        if (numBytesRead ==0) {
-            return;
-        }
-        
-        CFDataAppendBytes(self->currentData, b, numBytesRead);
-        const UInt8 *bptr = CFDataGetBytePtr(self->currentData);
-        if(bptr[1] > 253){
-            UInt16 fLength;
-            memcpy(&fLength, bptr+2, 2);
-            UInt16 trueLength = ntohs(fLength);
-            if (CFDataGetLength(self->currentData)<=trueLength) {
-                return;
-            }
-        }
+        by = CFReadStreamRead(stream, b, sizeof(b) - 1);
         
         if (WebSocketFrameGetState(self->frame) == kWebSocketFrameStateReady) {
             WebSocketFrameReset(self->frame);
         }
-        
-        WebSocketFrameAppend(self->frame, CFDataGetBytePtr(self->currentData), CFDataGetLength(self->currentData));
+
+        WebSocketFrameAppend(self->frame, b, by);
         WebSocketFrameParse(self->frame);
-                
-          if (WebSocketFrameGetState(self->frame) == kWebSocketFrameStateReady) {
-              
-              CFStringRef string = WebSocketFrameCopyPayloadString(self->frame, kCFStringEncodingUTF8);
-              if (string) {
-                  self->webSocket->callbacks.didClientReadCallback(self->webSocket, self, string);
-                  CFRelease(string);
-              }
-          }
+        
+        if (WebSocketFrameGetState(self->frame) == kWebSocketFrameStateReady) {
+            
+            CFStringRef string = WebSocketFrameCopyPayloadString(self->frame, kCFStringEncodingUTF8);
+            if (string) {
+                self->webSocket->callbacks.didClientReadCallback(self->webSocket, self, string);
+                CFRelease(string);
+            }
+        }
     } else {
         // Something was wrong with the message
     }

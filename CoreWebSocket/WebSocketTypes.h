@@ -93,9 +93,7 @@ struct WebSocketClient {
     
     Boolean didReadHandShake;
     Boolean didWriteHandShake;
-  
-    CFMutableDataRef currentData;
-  
+    
     WebSocketFrameRef frame;
 };
 
