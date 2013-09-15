@@ -386,7 +386,6 @@ WebSocketClientRef WebSocketClientCreate(WebSocketRef webSocket, CFSocketNativeH
             WebSocketRetain(webSocket), self->webSocket = webSocket;
             self->handle = handle;
 
-            self->currentData = CFDataCreateMutable(self->allocator, 0);
             self->frame = WebSocketFrameCreate(self->allocator);
             
             self->read = NULL;
