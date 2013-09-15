@@ -22,10 +22,16 @@
 #include "WebSocket.h"
 #include "WebSocketFrame.h"
 
+
 void
 Callback (WebSocketRef self, WebSocketClientRef client, CFStringRef value) {
+    static int frame = 0;
     if (value) {
-        CFShow(value);
+        char *buffer = malloc(1024);
+        if (CFStringGetCString(value, buffer, 1024, kCFStringEncodingUTF8)) {
+            printf("frame:\t%i\t\"%s\"\n", frame++, buffer);
+        }
+        free(buffer);
     }
 }
 
@@ -33,6 +39,7 @@ int
 main (int argc, const char *argv[]) {
     WebSocketRef webSocket = WebSocketCreateWithHostAndPort(NULL, kWebSocketHostAny, 6001, NULL);
     if (webSocket) {
+        printf("Running on 0.0.0.0:6001... Open public/test.html file.");
         webSocket->callbacks.didClientReadCallback = Callback;
         CFRunLoopRun();
         WebSocketRelease(webSocket);
