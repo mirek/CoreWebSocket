@@ -26,9 +26,6 @@
 #define kWebSocketScheme       "ws"
 #define kWebSocketSecureScheme "wss"
 
-// UUIDs used by HyBi 04 and later opening handshake and frame masking.
-#define kWebSocketAcceptUUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
-
 #include <CoreFoundation/CoreFoundation.h>
 #include <unistd.h>
 #include <netdb.h>
