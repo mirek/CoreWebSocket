@@ -20,6 +20,7 @@
 #ifndef __CORE_WEB_SOCKET_WEB_SOCKET_CLIENT_H__
 #define __CORE_WEB_SOCKET_WEB_SOCKET_CLIENT_H__ 1
 
+#include <CoreFoundation/CFString.h>
 #include "WebSocket.h"
 #include "WebSocketFrame.h"
 #include "cuEnc64.h"
@@ -34,6 +35,7 @@ void               WebSocketClientRelease (WebSocketClientRef self);
 
 CFIndex WebSocketClientWriteWithData   (WebSocketClientRef self, CFDataRef value);
 CFIndex WebSocketClientWriteWithString (WebSocketClientRef self, CFStringRef value);
+CFIndex WebSocketClientWriteWithFormat (WebSocketClientRef self, CFStringRef fmt, ...) CF_FORMAT_FUNCTION(2,0);
 
 #pragma mark Handshake (internal)
 

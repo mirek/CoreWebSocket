@@ -47,6 +47,71 @@ WebSocketFrameCreate (CFAllocatorRef allocator) {
     return self;
 }
 
+WebSocketFrameRef
+WebSocketFrameCreateWithPayloadData (CFAllocatorRef allocator, WebSocketFrameOpCode opCode, Boolean isMasked, UInt8 *maskingKey, CFDataRef payload) {
+    WebSocketFrameRef self = WebSocketFrameCreate(allocator);
+    if_self {
+        UInt8 header[2 + 8];
+        memset(header, 0, sizeof(header));
+
+        Boolean isFin = TRUE;
+        Boolean rsv1 = FALSE;
+        Boolean rsv2 = FALSE;
+        Boolean rsv3 = FALSE;
+
+        header[0] |= ((isFin ? 1 : 0) << 7);
+        header[0] |= ((rsv1  ? 1 : 0) << 6);
+        header[0] |= ((rsv2  ? 1 : 0) << 5);
+        header[0] |= ((rsv3  ? 1 : 0) << 4);
+        header[0] |= (opCode & 0xf);
+
+        header[1] |= ((isMasked ? 1 : 0) << 7);
+
+        CFIndex length = payload != NULL ? CFDataGetLength(payload) : 0;
+        if (length <= 125) {
+            header[1] |= (UInt8) length;
+            WebSocketFrameAppend(self, header, 2);
+        } else {
+            if (length < 65535) {
+                header[1] |= 126;
+                *((UInt16 *) &header[2]) = OSSwapBigToHostInt16(length);
+                WebSocketFrameAppend(self, header, 2 + 2);
+            } else {
+                header[1] |= 127;
+                *((UInt64 *) &header[2]) = OSSwapBigToHostInt64(length);
+                WebSocketFrameAppend(self, header, 2 + 8);
+            }
+        }
+
+        if (isMasked) {
+            UInt8 autoMaskingKey[4] = { 0, 0, 0, 0 };
+            if (maskingKey == NULL) {
+                * (u_int32_t *) autoMaskingKey = arc4random();
+                maskingKey = autoMaskingKey;
+            }
+            WebSocketFrameAppend(self, maskingKey, 4);
+        }
+
+        if (length > 0) {
+            WebSocketFrameAppend(self, CFDataGetBytePtr(payload), length);
+        }
+
+        WebSocketFrameParse(self);
+    }
+    return self;
+}
+
+WebSocketFrameRef
+WebSocketFrameCreateWithPayloadString (CFAllocatorRef allocator, Boolean isMasked, UInt8 *maskingKey, CFStringRef payload) {
+    WebSocketFrameRef self = NULL;
+    CFDataRef data = CFStringCreateExternalRepresentation(allocator, payload, kCFStringEncodingUTF8, 0);
+    if (data != NULL) {
+        self = WebSocketFrameCreateWithPayloadData(allocator, kWebSocketFrameOpCodeText, isMasked, maskingKey, data);
+        CFRelease(data);
+    }
+    return self;
+}
+
 void
 WebSocketFrameDealloc (WebSocketFrameRef self) {
     if_self {
@@ -210,8 +275,9 @@ __WebSocketFrameUInt64 (WebSocketFrameRef self, CFIndex offset) {
     return result;
 }
 
-void
+WebSocketFrameState
 WebSocketFrameParse (WebSocketFrameRef self) {
+    WebSocketFrameState result = kWebSocketFrameStateNone;
     if_self {
         
         self->isFin = FALSE;
@@ -330,7 +396,9 @@ WebSocketFrameParse (WebSocketFrameRef self) {
                     break;
             }
         }
+        result = self->state;
     }
+    return result;
 }
 
 void
@@ -384,3 +452,13 @@ WebSocketFrameCopyPayloadString (WebSocketFrameRef self, CFStringEncoding encodi
     }
     return result;
 }
+
+const UInt8 *
+WebSocketFrameGetBytesPtr (WebSocketFrameRef self) {
+    const UInt8 *result = NULL;
+    if_self {
+        result = CFDataGetBytePtr(self->data);
+    }
+    return result;
+}
+

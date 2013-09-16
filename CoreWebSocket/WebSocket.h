@@ -41,6 +41,12 @@ void         WebSocketConnectWithHostAndPort(WebSocketRef webSocket, CFStringRef
 void         WebSocketWriteWithString               (WebSocketRef webSocket, CFStringRef value);
 CFIndex      WebSocketWriteWithStringAndClientIndex (WebSocketRef webSocket, CFStringRef value, CFIndex index);
 
+WebSocketClientRef
+WebSocketGetClientAtIndex (WebSocketRef self, CFIndex index);
+
+CFIndex
+WebSocketGetClientCount (WebSocketRef self);
+
 #pragma mark Callbacks
 
 void         WebSocketSetClientReadCallback (WebSocketRef self, WebSocketDidClientReadCallback callback);

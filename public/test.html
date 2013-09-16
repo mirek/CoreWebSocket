@@ -1,85 +1,51 @@
 <html>
-  <head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8" /> 
-    <title>CoreWebSocket Example</title>
-  </head>
-  <body>
-
-    <div id="box" style="position: absolute; top: 100px; left: 100px; background-color: gray; width: 50px; height: 50px; color: white; font-size: 10px; text-align: center; cursor: pointer"></div>
-
-    <script type="text/javascript" charset="utf-8">
-      
-      function Osc(options) {
-        options = options || {}
-        this.port = options['port'] || 6001
-        this.host = options['host'] || document.location.hostname
-        if ("WebSocket" in window) {
-          this.webSocket = new WebSocket('ws://' + this.host + ':' + this.port)
-          this.webSocket.onerror = function(e) {
-            console.log('error', e)
-          }
-          this.webSocket.onopen = function(e) {
-            console.log('open', e)
-          }
-          this.webSocket.onmessage = function(e) {
-            console.log('message', e)
-          }
-          this.webSocket.onclose = function(e) {
-            console.log('close', e)
-          }
-        }
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" /> 
+        <title>CoreWebSocket Example</title>
+    </head>
+    <body>
         
-        this.__send = function(t, n, v) {
-          var j = JSON.stringify([t, n, v])
-          console.log(j)
-          return this.webSocket.send(j)
-        }
-        
-        this.sendFloat32 = function(n, v) {
-          return this.__send(',f', n, v)
-        }
-        
-        this.sendFloats32 = function(n, v) {
-          return this.__send(',' + new Array(v.length + 1).join('f'), n, v)
-        }
-        
-      }
-      
-      var osc  = new Osc({ host: '127.0.0.1', port: 6001 });
-      
-      var element = document.getElementById('circle')
-      var box = document.getElementById('box')
+        <div>
+            Position of light gray box is calculated on the server side in Objective-C and sent back to this HTML page.
+        </div>
 
-      document.ontouchstart = function(e) {
-        e.preventDefault()
-      }
+        <div id="box2" style="position: absolute; top: 100px; left: 100px; background-color: lightgray; width: 50px; height: 50px; color: white; font-size: 10px; text-align: center; cursor: pointer"></div>
+        <div id="box" style="position: absolute; top: 100px; left: 100px; background-color: gray; width: 50px; height: 50px; color: white; font-size: 10px; text-align: center; cursor: pointer"></div>
 
-      document.ontouchmove = function(e) {
-        e.preventDefault()
-        <!-- console.log(e.touches[0].pageX) -->
-        osc.sendFloat32('/pageX', e.touches[0].pageX)
-        osc.sendFloat32('/pageY', e.touches[0].pageY)
-        element.style['-webkit-transform'] = 'translate(' + (e.touches[0].pageX - 50) + 'px, ' + (e.touches[0].pageY - 50) + 'px)'
-      }
-      
-      document.onmousemove = function(e) {
-        // if (triangle) {
-          
-          box.style.left = (e.pageX - 25) + 'px'
-          box.style.top = (e.pageY - 25) + 'px'
-          box.innerHTML = e.pageX + ' x ' + e.pageY
-          
-          osc.sendFloat32('/pageX', e.pageX)
-          osc.sendFloat32('/pageY', e.pageY)
-          <!-- osc.sendFloats32('/pageXY', [e.pageX, e.pageY]) -->
-          
-          element.style['-webkit-transform'] = 'translate(' + (e.pageX - 50) + 'px, ' + (e.pageY - 50) + 'px)'
-          
-        // }
-      }
-      
-      
-    </script>
-    
-  </body>
+        <script type="text/javascript" charset="utf-8">
+
+            var box = document.getElementById('box')
+            var box2 = document.getElementById('box2')
+
+            if ("WebSocket" in window) {
+                ws = new WebSocket('ws://localhost:6001')
+
+                ws.onerror = function(e) {
+                    console.log('error', e)
+                }
+
+                ws.onopen = function(e) {
+                    console.log('open', e)
+                }
+
+                ws.onmessage = function(e) {
+                    var xy = JSON.parse(e.data)
+                    box2.style.left = (xy[0] - 25) + 'px'
+                    box2.style.top = (xy[1] - 25) + 'px'
+                    box2.innerHTML = parseInt(xy[0]) + ' x ' + parseInt(xy[1])
+                }
+
+                ws.onclose = function(e) {
+                    console.log('close', e)
+                }
+                
+                document.onmousemove = function(e) {
+                    box.style.left = (e.pageX - 25) + 'px'
+                    box.style.top = (e.pageY - 25) + 'px'
+                    box.innerHTML = e.pageX + ' x ' + e.pageY
+                    ws.send([e.pageX, e.pageY].join(" "))
+                }
+            }
+        </script>
+    </body>
 </html>

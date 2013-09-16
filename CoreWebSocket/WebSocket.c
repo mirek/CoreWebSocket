@@ -105,12 +105,10 @@ WebSocketCreateWithHostAndPort (CFAllocatorRef allocator, CFStringRef host, UInt
         if (address) {
             if (CFSocketSetAddress(self->socket, (CFDataRef) address) != kCFSocketSuccess) {
                 WebSocketRelease(self), self = NULL;
-
-                //        CFRelease(address); // TODO: is it retained by the function?
+                CFRelease(address);
                 goto fin;
-            } else {
-                //        CFRelease(address); // TODO: is it retained bby the function
             }
+            CFRelease(address);
         }
 
         // Create run loop source and add it to the current run loop
@@ -177,7 +175,6 @@ WebSocketGetPort (WebSocketRef self) {
 }
 
 // Send string frame to all connected clients
-//
 void
 WebSocketWriteWithString (WebSocketRef self, CFStringRef value) {
     if_self_and (value != NULL) {
@@ -192,6 +189,24 @@ WebSocketWriteWithStringAndClientIndex (WebSocketRef self, CFStringRef value, CF
     CFIndex result = -1;
     if_self_and (value != NULL && index >= 0 && index < self->clientsUsedLength) {
         result = WebSocketClientWriteWithString(self->clients[index], value);
+    }
+    return result;
+}
+
+WebSocketClientRef
+WebSocketGetClientAtIndex (WebSocketRef self, CFIndex index) {
+    WebSocketClientRef result = NULL;
+    if_self_and (index < self->clientsUsedLength) {
+        result = self->clients[index];
+    }
+    return result;
+}
+
+CFIndex
+WebSocketGetClientCount (WebSocketRef self) {
+    CFIndex result = 0;
+    if_self {
+        result = self->clientsUsedLength;
     }
     return result;
 }

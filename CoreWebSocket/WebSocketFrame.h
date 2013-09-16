@@ -72,16 +72,38 @@ struct WebSocketFrame {
 typedef struct WebSocketFrame * WebSocketFrameRef;
 
 /**
- * Create new frame object.
+ * Create new frame object. Frame object created this way can be used to append
+ * incomming bytes. After appending bytes you can call parse and check state
+ * to see if the frame has been finished.
  */
 WebSocketFrameRef
 WebSocketFrameCreate (CFAllocatorRef allocator) CF_RETURNS_RETAINED;
 
 /**
+ * Create new frame with information and payload data. Frames created this way
+ * can be used to send the data.
+ *
+ * If isMasked flag is TRUE and maskingKey is NULL, random masking key will be used.
+ *
+ * Payload can be NULL for control frames.
+ */
+WebSocketFrameRef
+WebSocketFrameCreateWithPayloadData (CFAllocatorRef allocator, WebSocketFrameOpCode opCode, Boolean isMasked, UInt8 *maskingKey, CFDataRef payload);
+
+/**
+ * Create new frame with information and payload data. Frames created this way
+ * can be used to send the data.
+ *
+ * If isMasked flag is TRUE and maskingKey is NULL, random masking key will be used.
+ */
+WebSocketFrameRef
+WebSocketFrameCreateWithPayloadString (CFAllocatorRef allocator, Boolean isMasked, UInt8 *maskingKey, CFStringRef payload);
+
+/**
  * Create new websocket frame object with specified payload capacity.
  */
 WebSocketFrameRef
-WebSocketFrameCreateWithPayloadCapacity (CFAllocatorRef allocator, CFIndex payloadCapacity) CF_RETURNS_RETAINED;
+WebSocketFrameCreateWithPayloadCapacity (CFAllocatorRef allocator, CFIndex payloadCapacity);
 
 /**
  * Deallocate websocket frame object. Direct use of this function is not recommended,
@@ -130,7 +152,7 @@ WebSocketFrameAppend (WebSocketFrameRef self, const UInt8 *bytes, CFIndex length
 void
 WebSocketFrameReset (WebSocketFrameRef self);
 
-void
+WebSocketFrameState
 WebSocketFrameParse (WebSocketFrameRef self);
 
 void
@@ -138,5 +160,8 @@ WebSocketFrameGetPayload (WebSocketFrameRef self, CFRange range, UInt8 *buffer, 
 
 CFStringRef
 WebSocketFrameCopyPayloadString (WebSocketFrameRef self, CFStringEncoding encoding);
+
+const UInt8 *
+WebSocketFrameGetBytesPtr (WebSocketFrameRef self);
 
 #endif

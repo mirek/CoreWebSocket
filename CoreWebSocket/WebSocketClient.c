@@ -24,43 +24,31 @@
 
 #pragma mark Write
 
-// Internal function, write provided buffer as websocket frame [0x00 buffer 0xff]
-//
+// Internal, write provided buffer as websocket frame [0x00 buffer 0xff]
 CFIndex
-__WebSocketClientWriteFrame (WebSocketClientRef client, const UInt8 *buffer, CFIndex length) {
+__WebSocketClientWriteFrameWithData (WebSocketClientRef client, WebSocketFrameOpCode opCode, Boolean isMasked, UInt8 *maskingKey, CFDataRef payload) {
     CFIndex result = 0;
-    if (client) {
-        if (buffer) {
-            if (length > 0) {
-                if (CFWriteStreamCanAcceptBytes(client->write)) {
-                    CFIndex didWrite = CFWriteStreamWrite(client->write, (UInt8[]) { (UInt8) 0x00 }, 1);
-                    if (didWrite == 1) {
-                        result += didWrite;
-                        didWrite = CFWriteStreamWrite(client->write, buffer, length);
-                        if (didWrite == length) {
-                            result += didWrite;
-                            didWrite = CFWriteStreamWrite(client->write, (UInt8[]) { (UInt8) 0xff }, 1);
-                            if (didWrite == 1) {
-                                result += didWrite;
-                            }
-                        }
-                    }
-                }
+    WebSocketFrameRef frame = WebSocketFrameCreateWithPayloadData(client->allocator, opCode, isMasked, maskingKey, payload);
+    if (frame != NULL) {
+        CFIndex length = CFDataGetLength(frame->data);
+        while (CFWriteStreamCanAcceptBytes(client->write) && (result < length)) {
+            CFIndex didWrite = CFWriteStreamWrite(client->write, WebSocketFrameGetBytesPtr(frame) + result, length - result);
+            if (didWrite > 0) {
+                result += didWrite;
             }
         }
+        WebSocketFrameDealloc(frame);
     }
     return result;
 }
 
-// Write data as websocket frame.
-//
+// Write data as websocket frame (with binary frame opcode).
 CFIndex
 WebSocketClientWriteWithData (WebSocketClientRef self, CFDataRef value) {
-    return __WebSocketClientWriteFrame(self, CFDataGetBytePtr(value), CFDataGetLength(value));
+    return __WebSocketClientWriteFrameWithData(self, kWebSocketFrameOpCodeBinary, FALSE, NULL, value);
 }
 
-// Write UTF-8 encoded string as a websocket frame.
-//
+// Write UTF-8 encoded string as a websocket frame (with text frame opcode).
 CFIndex
 WebSocketClientWriteWithString (WebSocketClientRef self, CFStringRef value) {
     CFIndex result = -1;
@@ -68,9 +56,26 @@ WebSocketClientWriteWithString (WebSocketClientRef self, CFStringRef value) {
         if (value) {
             CFDataRef data = CFStringCreateExternalRepresentation(self->allocator, value, kCFStringEncodingUTF8, 0);
             if (data) {
-                result = WebSocketClientWriteWithData(self, data);
+                result = __WebSocketClientWriteFrameWithData(self, kWebSocketFrameOpCodeText, FALSE, NULL, data);
                 CFRelease(data);
             }
+        }
+    }
+    return result;
+}
+
+// Write UTF-8 encoded string as a websocket frame (with text frame opcode).
+CFIndex
+WebSocketClientWriteWithFormat (WebSocketClientRef self, CFStringRef fmt, ...) {
+    CFIndex result = -1;
+    if_self if (fmt != NULL) {
+        va_list args;
+        va_start(args, fmt);
+        CFStringRef string = CFStringCreateWithFormatAndArguments(self->allocator, NULL, fmt, args);
+        va_end(args);
+        if (string != NULL) {
+            result = WebSocketClientWriteWithString(self, string);
+            CFRelease(string);
         }
     }
     return result;
@@ -83,49 +88,53 @@ __WebSocketClientWriteHandShake (WebSocketClientRef client);
 
 void
 __WebSocketClientReadFrame (WebSocketClientRef self, CFReadStreamRef stream) {
-    
+
+    // Reset last frame if it has been completed.
+    if (WebSocketFrameGetState(self->frame) == kWebSocketFrameStateReady) {
+        WebSocketFrameReset(self->frame);
+    }
+
     // Did handshake already and there are bytes to read.
     // It's an incomming message.
-    UInt8 b[4096];
-    memset(b, 0, sizeof(b));
-    CFIndex by = 0;
-    if (CFReadStreamHasBytesAvailable(self->read)) {
-        by = CFReadStreamRead(stream, b, sizeof(b) - 1);
-        
-        if (WebSocketFrameGetState(self->frame) == kWebSocketFrameStateReady) {
-            WebSocketFrameReset(self->frame);
-        }
-
-        WebSocketFrameAppend(self->frame, b, by);
-        WebSocketFrameParse(self->frame);
-        
-        if (WebSocketFrameGetState(self->frame) == kWebSocketFrameStateReady) {
-            
-            CFStringRef string = WebSocketFrameCopyPayloadString(self->frame, kCFStringEncodingUTF8);
-            if (string) {
-                self->webSocket->callbacks.didClientReadCallback(self->webSocket, self, string);
-                CFRelease(string);
+    {
+        CFIndex size = 64 * 1024;
+        UInt8 *buffer = (UInt8 *) CFAllocatorAllocate(self->allocator, size, 0);
+        if (buffer != NULL) {
+            CFIndex didRead = 0;
+            while (CFReadStreamHasBytesAvailable(self->read)) {
+                if ((didRead = CFReadStreamRead(stream, buffer, size)) != -1) {
+                    WebSocketFrameAppend(self->frame, buffer, didRead);
+                } else {
+                    break;
+                }
             }
+            CFAllocatorDeallocate(self->allocator, buffer);
         }
-    } else {
-        // Something was wrong with the message
+    }
+
+    if (WebSocketFrameParse(self->frame) == kWebSocketFrameStateReady) {
+        CFStringRef string = WebSocketFrameCopyPayloadString(self->frame, kCFStringEncodingUTF8);
+        if (string) {
+            self->webSocket->callbacks.didClientReadCallback(self->webSocket, self, string);
+            CFRelease(string);
+        }
     }
 }
 
 void
 __WebSocketClientReadCallBack (CFReadStreamRef stream, CFStreamEventType eventType, void *info) {
-    WebSocketClientRef client = info;
-    if (client) {
+    WebSocketClientRef self = (WebSocketClientRef) info;
+    if (self) {
         switch (eventType) {
             case kCFStreamEventOpenCompleted:
                 break;
                 
             case kCFStreamEventHasBytesAvailable:
-                if (!client->didReadHandShake) {
-                    if (__WebSocketClientReadHandShake(client)) {
-                        if (!client->didWriteHandShake) {
-                            if (CFWriteStreamCanAcceptBytes(client->write)) {
-                                if (__WebSocketClientWriteHandShake(client)) {
+                if (!self->didReadHandShake) {
+                    if (__WebSocketClientReadHandShake(self)) {
+                        if (!self->didWriteHandShake) {
+                            if (CFWriteStreamCanAcceptBytes(self->write)) {
+                                if (__WebSocketClientWriteHandShake(self)) {
                                     //                  printf("Successfully written handshake\n");
                                 } else {
                                     printf("TODO: Error writting handshake\n");
@@ -136,13 +145,13 @@ __WebSocketClientReadCallBack (CFReadStreamRef stream, CFStreamEventType eventTy
                         } else {
                             printf("TODO: Just read handshake and handshake already written, shouldn't happen, fault?\n");
                         }
-                        __WebSocketAppendClient(client->webSocket, client);
+                        __WebSocketAppendClient(self->webSocket, self);
                     } else {
                         printf("TODO: Didn't read handshake and __WebSocketClientReadHandShake failed.\n");
                     }
                 } else {
                     
-                    __WebSocketClientReadFrame(client, stream);
+                    __WebSocketClientReadFrame(self, stream);
                     
                 }
                 break;
@@ -159,24 +168,26 @@ __WebSocketClientReadCallBack (CFReadStreamRef stream, CFStreamEventType eventTy
     }
 }
 
-Boolean __WebSocketClientWriteWithHTTPMessage(WebSocketClientRef client, CFHTTPMessageRef message) {
-    Boolean success = 0;
+Boolean
+__WebSocketClientWriteWithHTTPMessage (WebSocketClientRef client, CFHTTPMessageRef message) {
+    Boolean result = FALSE;
     if (client && message) {
         CFDataRef data = CFHTTPMessageCopySerializedMessage(message);
         if (data) {
             CFIndex written = CFWriteStreamWrite(client->write, CFDataGetBytePtr(data), CFDataGetLength(data));
             if (written == CFDataGetLength(data)) {
-                success = 1; // TODO: do it properly
+                result = TRUE; // TODO: do it properly
             }
             client->didWriteHandShake = 1;
             CFRelease(data);
         }
     }
-    return success;
+    return result;
 }
 
-Boolean __WebSocketClientWriteHandShakeDraftIETF_HYBI_00(WebSocketClientRef client) {
-    Boolean success = 0;
+Boolean
+__WebSocketClientWriteHandShakeDraftIETF_HYBI_00 (WebSocketClientRef client) {
+    Boolean result = FALSE;
     if (client) {
         if (client->protocol == kWebSocketProtocolDraftIETF_HYBI_00) {
             CFStringRef key1 = CFHTTPMessageCopyHeaderFieldValue(client->handShakeRequestHTTPMessage, CFSTR("Sec-Websocket-Key1"));
@@ -212,7 +223,7 @@ Boolean __WebSocketClientWriteHandShakeDraftIETF_HYBI_00(WebSocketClientRef clie
             
             CFShow(response);
             
-            success = __WebSocketClientWriteWithHTTPMessage(client, response);
+            result = __WebSocketClientWriteWithHTTPMessage(client, response) ? TRUE : FALSE;
             
             CFRelease(response);
             
@@ -223,14 +234,15 @@ Boolean __WebSocketClientWriteHandShakeDraftIETF_HYBI_00(WebSocketClientRef clie
             CFRelease(key1);
         }
     }
-    return success;
+    return result;
 }
 
 // The source code has been copied and modified from
 // http://www.opensource.apple.com/source/CFNetwork/CFNetwork-128/HTTP/CFHTTPAuthentication.c
 // See _CFEncodeBase64 function. The source code has been released under
 // Apple Public Source License Version 2.0 http://www.opensource.apple.com/apsl/
-CFStringRef __WebSocketCreateBase64StringWithData(CFAllocatorRef allocator, CFDataRef inputData) {
+CFStringRef
+__WebSocketCreateBase64StringWithData (CFAllocatorRef allocator, CFDataRef inputData) {
 	unsigned outDataLen;
 	CFStringRef result = NULL;
 	unsigned char *outData = cuEnc64(CFDataGetBytePtr(inputData), (unsigned int)CFDataGetLength(inputData), &outDataLen);
@@ -247,7 +259,8 @@ CFStringRef __WebSocketCreateBase64StringWithData(CFAllocatorRef allocator, CFDa
 	return result;
 }
 
-Boolean __WebSocketClientWriteHandShakeDraftIETF_HYBI_06(WebSocketClientRef client) {
+Boolean
+__WebSocketClientWriteHandShakeDraftIETF_HYBI_06 (WebSocketClientRef client) {
     Boolean success = 0;
     if (client) {
         if (client->protocol == kWebSocketProtocolDraftIETF_HYBI_06) {
@@ -283,7 +296,8 @@ Boolean __WebSocketClientWriteHandShakeDraftIETF_HYBI_06(WebSocketClientRef clie
     return success;
 }
 
-Boolean __WebSocketClientWriteHandShakeRFC6455_13 (WebSocketClientRef client) {
+Boolean
+__WebSocketClientWriteHandShakeRFC6455_13 (WebSocketClientRef client) {
     Boolean success = 0;
     if (client) {
         if (client->protocol == kWebSocketProtocol_RFC6455_13) {
@@ -345,7 +359,8 @@ __WebSocketClientWriteHandShake (WebSocketClientRef self) {
     return success;
 }
 
-void __WebSocketClientWriteCallBack(CFWriteStreamRef stream, CFStreamEventType eventType, void *info) {
+void
+__WebSocketClientWriteCallBack (CFWriteStreamRef stream, CFStreamEventType eventType, void *info) {
     WebSocketClientRef client = info;
     if (client) {
         switch (eventType) {
@@ -375,7 +390,8 @@ void __WebSocketClientWriteCallBack(CFWriteStreamRef stream, CFStreamEventType e
 
 #pragma mark Lifecycle
 
-WebSocketClientRef WebSocketClientCreate(WebSocketRef webSocket, CFSocketNativeHandle handle) {
+WebSocketClientRef
+WebSocketClientCreate (WebSocketRef webSocket, CFSocketNativeHandle handle) {
     WebSocketClientRef self = NULL;
     if (webSocket) {
         self = CFAllocatorAllocate(webSocket->allocator, sizeof(WebSocketClient), 0);
@@ -476,7 +492,8 @@ WebSocketClientRelease (WebSocketClientRef self) {
 #pragma Handshake
 
 // Return magic number for the key needed to generate handshake hash
-uint32_t __WebSocketGetMagicNumberWithKeyValueString(CFStringRef string) {
+uint32_t
+__WebSocketGetMagicNumberWithKeyValueString (CFStringRef string) {
     uint32_t magick = -1;
     if (string) {
         UInt8 buffer[__WebSocketMaxHeaderKeyLength];
@@ -502,7 +519,8 @@ uint32_t __WebSocketGetMagicNumberWithKeyValueString(CFStringRef string) {
 }
 
 // Appends big-endian uint32 magic number with key string to the mutable data
-Boolean __WebSocketDataAppendMagickNumberWithKeyValueString(CFMutableDataRef data, CFStringRef string) {
+Boolean
+__WebSocketDataAppendMagickNumberWithKeyValueString (CFMutableDataRef data, CFStringRef string) {
     Boolean success = 0;
     if (data && string) {
         uint32_t magick = __WebSocketGetMagicNumberWithKeyValueString(string);
@@ -513,19 +531,22 @@ Boolean __WebSocketDataAppendMagickNumberWithKeyValueString(CFMutableDataRef dat
     return success;
 }
 
-CFDataRef __WebSocketCreateMD5Data(CFAllocatorRef allocator, CFDataRef value) {
+CFDataRef
+__WebSocketCreateMD5Data (CFAllocatorRef allocator, CFDataRef value) {
     unsigned char digest[CC_MD5_DIGEST_LENGTH];
     CC_MD5((unsigned char *)CFDataGetBytePtr(value), (CC_LONG)CFDataGetLength(value), digest);
     return CFDataCreate(allocator, digest, CC_MD5_DIGEST_LENGTH);
 }
 
-CFDataRef __WebSocketCreateSHA1DataWithData(CFAllocatorRef allocator, CFDataRef value) {
+CFDataRef
+__WebSocketCreateSHA1DataWithData (CFAllocatorRef allocator, CFDataRef value) {
     unsigned char digest[CC_SHA1_DIGEST_LENGTH];
     CC_SHA1((unsigned char *)CFDataGetBytePtr(value), (CC_LONG)CFDataGetLength(value), digest);
     return CFDataCreate(allocator, digest, CC_SHA1_DIGEST_LENGTH);
 }
 
-CFDataRef __WebSocketCreateSHA1DataWithString(CFAllocatorRef allocator, CFStringRef value, CFStringEncoding encoding) {
+CFDataRef
+__WebSocketCreateSHA1DataWithString (CFAllocatorRef allocator, CFStringRef value, CFStringEncoding encoding) {
     CFDataRef data = NULL;
     if (value) {
         CFDataRef valueData = CFStringCreateExternalRepresentation(allocator, value, encoding, 0);
@@ -537,7 +558,8 @@ CFDataRef __WebSocketCreateSHA1DataWithString(CFAllocatorRef allocator, CFString
     return data;
 }
 
-Boolean __WebSocketClientHandShakeConsumeHTTPMessage(WebSocketClientRef client) {
+Boolean
+__WebSocketClientHandShakeConsumeHTTPMessage (WebSocketClientRef client) {
     Boolean success = 0;
     if (client) {
         UInt8 buffer[4096];
@@ -555,6 +577,7 @@ Boolean __WebSocketClientHandShakeConsumeHTTPMessage(WebSocketClientRef client) 
         }
         success = 1;
     }
+
 fin:
     return success;
 }
