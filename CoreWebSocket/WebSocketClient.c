@@ -416,7 +416,7 @@ WebSocketClientRef WebSocketClientCreate(WebSocketRef webSocket, CFSocketNativeH
             client->didReadHandShake = 0;
             client->didWriteHandShake = 0;
             client->protocol = kWebSocketProtocolUnknown;
-            
+            client->currentData = CFDataCreateMutable(NULL, 0);
             CFStreamCreatePairWithSocket(client->allocator, handle, &client->read, &client->write);
             if (!client->read || !client->write) {
                 close(handle);
