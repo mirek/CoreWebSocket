@@ -221,8 +221,6 @@ __WebSocketClientWriteHandShakeDraftIETF_HYBI_00 (WebSocketClientRef client) {
                 CFRelease(data);
             }
             
-            CFShow(response);
-            
             result = __WebSocketClientWriteWithHTTPMessage(client, response) ? TRUE : FALSE;
             
             CFRelease(response);
@@ -270,8 +268,6 @@ __WebSocketClientWriteHandShakeDraftIETF_HYBI_06 (WebSocketClientRef client) {
             CFDataRef keyWithMagickSHA1 = __WebSocketCreateSHA1DataWithString(client->allocator, keyWithMagick, kCFStringEncodingUTF8);
             CFStringRef keyWithMagickSHA1Base64 = __WebSocketCreateBase64StringWithData(client->allocator, keyWithMagickSHA1);
             
-            CFShow(keyWithMagickSHA1Base64);
-            
             CFStringRef origin = CFHTTPMessageCopyHeaderFieldValue(client->handShakeRequestHTTPMessage, CFSTR("Sec-WebSocket-Origin"));
             CFStringRef host = CFHTTPMessageCopyHeaderFieldValue(client->handShakeRequestHTTPMessage, CFSTR("Host"));
             
@@ -306,8 +302,6 @@ __WebSocketClientWriteHandShakeRFC6455_13 (WebSocketClientRef client) {
             CFStringRef keyWithMagick = CFStringCreateWithFormat(client->allocator, NULL, CFSTR("%@%@"), key, CFSTR("258EAFA5-E914-47DA-95CA-C5AB0DC85B11"));
             CFDataRef keyWithMagickSHA1 = __WebSocketCreateSHA1DataWithString(client->allocator, keyWithMagick, kCFStringEncodingUTF8);
             CFStringRef keyWithMagickSHA1Base64 = __WebSocketCreateBase64StringWithData(client->allocator, keyWithMagickSHA1);
-            
-            CFShow(keyWithMagickSHA1Base64);
             
 //            CFStringRef host = CFHTTPMessageCopyHeaderFieldValue(client->handShakeRequestHTTPMessage, CFSTR("Host"));
             
@@ -649,13 +643,12 @@ __WebSocketClientReadHandShake (WebSocketClientRef self) {
         if ((result = __WebSocketClientHandShakeConsumeHTTPMessage(self))) {
             if ((result = __WebSocketClientHandShakeUpdateProtocolBasedOnHTTPMessage(self))) {
                 
-                // Dump http message
-                CFDictionaryRef headerFields = CFHTTPMessageCopyAllHeaderFields(self->handShakeRequestHTTPMessage);
-                if (headerFields) {
-                    CFShow(headerFields);
-                    CFRelease(headerFields);
-                }
-                //        printf("__WebSocketClientReadHandShake: protocol %i\n", client->protocol);
+                // Dump http message:
+                //
+                // CFDictionaryRef headerFields = CFHTTPMessageCopyAllHeaderFields(self->handShakeRequestHTTPMessage);
+                // if (headerFields) {
+                //    CFRelease(headerFields);
+                // }
             }
         }
         self->didReadHandShake = TRUE;
