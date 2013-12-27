@@ -13,8 +13,8 @@ Pod::Spec.new do |s|
   s.author       = { "Mirek Rusin" => "mirek@me.com" }
   s.ios.deployment_target = '5.0'
   s.osx.deployment_target = '10.7'
-  s.source       = { :git => "https://github.com/mirek/CoreWebSocket.git" }
-  s.source_files  = 'CoreWebSocket/*.{h,m}'
+  s.source       = { :git => "https://github.com/mirek/CoreWebSocket.git", :tag => 0.1 }
+  s.source_files  = 'CoreWebSocket/*.{h,c}'
 
   s.public_header_files = 'CoreWebSocket/*.h'
   s.framework  = 'CoreServices', 'CFNetwork'
