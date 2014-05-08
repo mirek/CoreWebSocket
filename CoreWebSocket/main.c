@@ -52,6 +52,10 @@ TimerCallback (CFRunLoopTimerRef timer, void *info) {
     }
 }
 
+void CloseCallback(WebSocketRef self, WebSocketClientRef client) {
+    printf("WebSocket has been closed!");
+}
+
 int
 main (int argc, const char *argv[]) {
     WebSocketRef webSocket = WebSocketCreateWithHostAndPort(NULL, kWebSocketHostAny, 6001, NULL);
@@ -60,7 +64,8 @@ main (int argc, const char *argv[]) {
         printf("Running on 0.0.0.0:6001... Open public/test.html file.");
 
         webSocket->callbacks.didClientReadCallback = Callback;
-
+        webSocket->callbacks.willRemoveClientCallback = CloseCallback;
+        
         // Send some data periodically to the web page.
         CFRunLoopTimerContext context = { 0, webSocket, NULL, NULL, NULL };
         CFRunLoopTimerRef timer = CFRunLoopTimerCreate(NULL, CFAbsoluteTimeGetCurrent(), 1.0 / FPS, 0, 0, TimerCallback, &context);

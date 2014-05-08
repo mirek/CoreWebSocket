@@ -115,7 +115,18 @@ __WebSocketClientReadFrame (WebSocketClientRef self, CFReadStreamRef stream) {
     if (WebSocketFrameParse(self->frame) == kWebSocketFrameStateReady) {
         CFStringRef string = WebSocketFrameCopyPayloadString(self->frame, kCFStringEncodingUTF8);
         if (string) {
-            self->webSocket->callbacks.didClientReadCallback(self->webSocket, self, string);
+            
+            // If the received message is null, a websocket.close has been sent
+            // Warning: This can also happen when an actual empty message has been sent
+            long bytes = CFStringGetLength(string);
+            if (bytes == 0) {
+                __WebSocketRemoveClient(self->webSocket, self);
+            } else {
+                if (self->webSocket->callbacks.didClientReadCallback) {
+                    self->webSocket->callbacks.didClientReadCallback(self->webSocket, self, string);
+                }
+            }
+            
             CFRelease(string);
         }
     }
@@ -160,6 +171,7 @@ __WebSocketClientReadCallBack (CFReadStreamRef stream, CFStreamEventType eventTy
                 break;
                 
             case kCFStreamEventEndEncountered:
+                __WebSocketRemoveClient(self->webSocket, self);
                 break;
                 
             default:
