@@ -24,22 +24,37 @@
 
 #pragma mark Write
 
+void
+__WebSocketClientWritePoll (WebSocketClientRef client) {
+	while ((CFArrayGetCount(client->writeQueue) > 0) && CFWriteStreamCanAcceptBytes(client->write)) {
+		CFDataRef data = CFArrayGetValueAtIndex(client->writeQueue,0);
+		CFIndex remaining = CFDataGetLength(data) - client->writeOffset;
+		CFIndex wrote = CFWriteStreamWrite(client->write, (CFDataGetBytePtr(data) + client->writeOffset), remaining);
+		if (wrote <= 0) {
+			return;
+		}
+		client->writeOffset += wrote;
+		if (wrote < remaining) {
+			return;
+		}
+		CFArrayRemoveValueAtIndex(client->writeQueue, 0);
+		client->writeOffset = 0;
+	}
+}
+
 // Internal, write provided buffer as websocket frame [0x00 buffer 0xff]
 CFIndex
 __WebSocketClientWriteFrameWithData (WebSocketClientRef client, WebSocketFrameOpCode opCode, Boolean isMasked, UInt8 *maskingKey, CFDataRef payload) {
-    CFIndex result = 0;
-    WebSocketFrameRef frame = WebSocketFrameCreateWithPayloadData(client->allocator, opCode, isMasked, maskingKey, payload);
-    if (frame != NULL) {
-        CFIndex length = CFDataGetLength(frame->data);
-        while (CFWriteStreamCanAcceptBytes(client->write) && (result < length)) {
-            CFIndex didWrite = CFWriteStreamWrite(client->write, WebSocketFrameGetBytesPtr(frame) + result, length - result);
-            if (didWrite > 0) {
-                result += didWrite;
-            }
-        }
-        WebSocketFrameDealloc(frame);
-    }
-    return result;
+	WebSocketFrameRef frame = WebSocketFrameCreateWithPayloadData(client->allocator, opCode, isMasked, maskingKey, payload);
+	if (frame == NULL) {
+		return -1;
+	}
+	
+	CFArrayAppendValue(client->writeQueue, frame->data);
+	WebSocketFrameDealloc(frame);
+	
+	__WebSocketClientWritePoll(client);
+	return 0;
 }
 
 // Write data as websocket frame (with binary frame opcode).
@@ -362,6 +377,8 @@ __WebSocketClientWriteCallBack (CFWriteStreamRef stream, CFStreamEventType event
             case kCFStreamEventCanAcceptBytes:
                 if (!client->didWriteHandShake && client->didReadHandShake)
                     __WebSocketClientWriteHandShake(client);
+				else if (client->didWriteHandShake)
+					__WebSocketClientWritePoll(client);
                 break;
                 
             case kCFStreamEventEndEncountered:
@@ -400,7 +417,10 @@ WebSocketClientCreate (WebSocketRef webSocket, CFSocketNativeHandle handle) {
             
             self->read = NULL;
             self->write = NULL;
-            
+			
+			self->writeQueue = CFArrayCreateMutable(webSocket->allocator,0,&kCFTypeArrayCallBacks);
+			self->writeOffset = 0;
+			
             self->context.version = 0;
             self->context.info = self;
             self->context.copyDescription = NULL;
@@ -469,7 +489,12 @@ WebSocketClientRelease (WebSocketClientRef self) {
                 CFRelease(self->write);
                 self->write = NULL;
             }
-            
+			
+			if (self->writeQueue) {
+				CFRelease(self->writeQueue);
+				self->writeQueue = NULL;
+			}
+			
             if (self->frame != NULL) {
                 WebSocketFrameRelease(self->frame), self->frame = NULL;
             }

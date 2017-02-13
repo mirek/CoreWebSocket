@@ -81,6 +81,7 @@ struct WebSocketClient {
     CFWriteStreamRef write;
     
     CFMutableArrayRef writeQueue;
+	CFIndex writeOffset;
     
     CFHTTPMessageRef handShakeRequestHTTPMessage;
     WebSocketProtocol protocol;
